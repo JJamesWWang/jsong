@@ -1,7 +1,9 @@
 import React from "react";
+import classes from "./InputBox.module.css";
 
 type InputBoxProps = {
   name: string;
+  size?: number;
   label?: string;
   validator?: (value: string) => boolean;
   onSubmit: (text: string) => void;
@@ -20,9 +22,9 @@ function InputBox(props: InputBoxProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   return (
-    <form onSubmit={onFormSubmit}>
+    <form className={classes.InputBox} onSubmit={onFormSubmit}>
       {props.label && <label htmlFor={props.name}>{props.label}</label>}
-      <input ref={inputRef} type="text" name={props.name}></input>
+      <input ref={inputRef} type="text" name={props.name} size={props.size || 32}></input>
     </form>
   );
 }

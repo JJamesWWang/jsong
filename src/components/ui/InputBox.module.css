@@ -1,0 +1,14 @@
+label {
+  display: block;
+  color: #e3e2e0;
+  margin-bottom: 5px;
+}
+
+input {
+  display: block;
+  padding: 5px;
+  border: 1px solid #e3e2e0;
+  border-radius: 3px;
+  background-color: #444;
+  color: #e3e2e0;
+}
