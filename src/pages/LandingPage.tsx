@@ -10,12 +10,14 @@ function LandingPage() {
 
   return (
     <>
-      <InputBox
-        name="username"
-        label="Enter your username:"
-        error="Please enter a non-empty username."
-        onSubmit={usernameEntered}
-      />
+      {!isConnecting && (
+        <InputBox
+          name="username"
+          label="Enter your username:"
+          error="Please enter a non-empty username."
+          onSubmit={usernameEntered}
+        />
+      )}
       {isConnecting && <h1>Connecting...</h1>}
     </>
   );
