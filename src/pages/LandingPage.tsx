@@ -1,24 +1,20 @@
-import { useState } from "react";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { createWebsocket } from "../features/websocket";
 import InputBox from "../components/ui/InputBox";
 
 type LandingPageProps = {
-  onConnected: (client: W3CWebSocket) => void;
+  isConnecting: boolean;
+  isConnected: boolean;
+  isConnectionFailed: boolean;
 };
 
 function LandingPage(props: LandingPageProps) {
-  const [isConnecting, setIsConnecting] = useState(false);
-
   function usernameEntered(username: string) {
-    setIsConnecting(true);
-    const websocket = createWebsocket(username);
-    props.onConnected(websocket);
+    console.log(username);
   }
 
   return (
     <>
-      {!isConnecting && (
+      {props.isConnecting && <p>Connecting...</p>}
+      {props.isConnected && (
         <InputBox
           name="username"
           label="Enter your username:"
@@ -26,7 +22,12 @@ function LandingPage(props: LandingPageProps) {
           onSubmit={usernameEntered}
         />
       )}
-      {isConnecting && <h1>Connecting...</h1>}
+      {props.isConnectionFailed && (
+        <p>
+          Failed to connect. Please try again later or contact James @
+          jjameswwang@gmail.com
+        </p>
+      )}
     </>
   );
 }
