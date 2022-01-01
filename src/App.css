@@ -1,4 +1,4 @@
-/* Centers the app */
+/* Centers the app, sets background color and default font color */
 html,
 body {
   height: 100%;
@@ -13,4 +13,5 @@ body {
   display: table-cell;
   vertical-align: middle;
   background-color: #222;
+  color: #e3e2e0;
 }

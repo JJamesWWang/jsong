@@ -1,15 +1,22 @@
+import { useState } from "react";
 import InputBox from "../components/ui/InputBox";
-import classes from "./LandingPage.module.css";
 
-function LandingPage(props: { usernameEntered: (username: string) => void }) {
+function LandingPage() {
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  function usernameEntered(username: string) {
+    setIsConnecting(true);
+  }
+
   return (
-    <div className={classes.LandingPage}>
+    <>
       <InputBox
         name="username"
         label="Enter your username:"
-        onSubmit={props.usernameEntered}
+        onSubmit={usernameEntered}
       />
-    </div>
+      {isConnecting && <h1>Connecting...</h1>}
+    </>
   );
 }
 
