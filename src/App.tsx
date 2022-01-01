@@ -1,56 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { useState } from "react";
+import InputBox from "./components/ui/InputBox";
+import "./App.css";
+
+const landingPage = (props: { usernameEntered: (username: string) => void }) => {
+  return (
+    <>
+      <h1>Welcome to Jsong!</h1>
+      <InputBox
+        name="username"
+        label="Enter your username:"
+        onSubmit={props.usernameEntered}
+      />
+    </>
+  );
+};
 
 function App() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  function usernameEntered(username: string) {
+    setIsConnected(true);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      {!isConnected && !isPlaying && landingPage({ usernameEntered })}
+      {isConnected && !isPlaying && <h1>Connected!</h1>}
+      {isConnected && isPlaying && <h1>Playing!</h1>}
     </div>
   );
 }
