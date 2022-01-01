@@ -1,25 +1,24 @@
-import { useState } from "react";
-import useWebSocket from "react-use-websocket";
+import { useAppSelector, useAppDispatch } from "./app/hooks";
+import { RootState } from "./app/store";
 import LandingPage from "./pages/LandingPage";
+import LobbyPage from "./pages/LobbyPage";
 import "./App.css";
 
 function App() {
-  const { sendJsonMessage, readyState } = useWebSocket("ws://localhost:8000/ws");
+  const isAuthenticated = useAppSelector(
+    (state: RootState) =>
+      state.lobby.connection && state.lobby.connection.isAuthenticated
+  );
 
-  const isConnecting = readyState === 0;
-  const isConnected = readyState === 1;
-  const isConnectionFailed = readyState === 2 || readyState === 3;
+  function onWebsocketMessage(message: MessageEvent) {
+    const data = JSON.parse(message.data);
+    console.log(data);
+  }
 
   return (
     <div className="App">
-      {!isConnected && (
-        <LandingPage
-          isConnecting={isConnecting}
-          isConnected={isConnected}
-          isConnectionFailed={isConnectionFailed}
-        />
-      )}
-      {isConnected && <h1>Connected!</h1>}
+      {!isAuthenticated && <LandingPage onWebsocketMessage={onWebsocketMessage} />}
+      {isAuthenticated && <LobbyPage />}
     </div>
   );
 }
