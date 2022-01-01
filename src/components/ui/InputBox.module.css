@@ -12,3 +12,7 @@ input {
   background-color: #444;
   color: #e3e2e0;
 }
+
+p {
+  margin-top: 2px;
+}

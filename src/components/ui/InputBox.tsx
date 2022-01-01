@@ -1,30 +1,52 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import classes from "./InputBox.module.css";
 
 type InputBoxProps = {
   name: string;
   size?: number;
   label?: string;
+  error?: string;
   validator?: (value: string) => boolean;
-  onSubmit: (text: string) => void;
+  onSubmit?: (text: string) => void;
 };
 
 function InputBox(props: InputBoxProps) {
+  const [isDirty, setIsDirty] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+
+  const validate = props.validator || ((value: string) => value.length > 0);
+
+  function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    setIsValid(validate(value));
+    setIsDirty(true);
+  }
+
   function onFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const validator = props.validator || ((value: string) => value.length > 0);
-    if (inputRef.current && validator(inputRef.current.value)) {
-      props.onSubmit(inputRef.current.value);
-      inputRef.current.value = "";
+    if (props.onSubmit && inputRef.current) {
+      if (validate(inputRef.current.value)) {
+        props.onSubmit(inputRef.current.value);
+        inputRef.current.value = "";
+      } else {
+        setIsValid(false);
+      }
     }
   }
 
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <form className={classes.InputBox} onSubmit={onFormSubmit}>
       {props.label && <label htmlFor={props.name}>{props.label}</label>}
-      <input ref={inputRef} type="text" name={props.name} size={props.size || 32}></input>
+      <input
+        ref={inputRef}
+        type="text"
+        name={props.name}
+        size={props.size || 32}
+        onChange={onInputChange}
+      ></input>
+      {isDirty && !isValid && props.error && <p>{props.error}</p>}
     </form>
   );
 }
