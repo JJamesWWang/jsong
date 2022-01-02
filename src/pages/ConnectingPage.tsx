@@ -8,7 +8,7 @@ type LandingPageProps = {
   onWebsocketError: () => void;
 };
 
-function LobbyPage(props: LandingPageProps) {
+function ConnectingPage(props: LandingPageProps) {
   const { readyState } = useWebSocket(websocketEndpoint(props.username), {
     share: true,
     onMessage: props.onWebsocketMessage,
@@ -21,15 +21,15 @@ function LobbyPage(props: LandingPageProps) {
   return (
     <>
       {isConnecting && <p>Connecting...</p>}
-      {isConnected && <p>Connected!</p>}
       {isConnectionFailed && (
         <p>
           Failed to connect. Please try again later or contact James @
           jjameswwang@gmail.com
         </p>
       )}
+      {isConnected && <p>Connected!</p>}
     </>
   );
 }
 
-export default LobbyPage;
+export default ConnectingPage;

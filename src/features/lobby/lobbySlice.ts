@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { receiveContext, receiveConnected } from "../serverActions";
 
 export type Member = {
   uid: string;
@@ -21,6 +22,17 @@ export const lobbySlice = createSlice({
   name: "lobby",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(receiveContext, (state, action) => {
+      state.members = action.payload;
+    });
+    builder.addCase(receiveConnected, (state, action) => {
+      if (!state.member) {
+        state.member = action.payload;
+      }
+      state.members = [...state.members, action.payload];
+    });
+  },
 });
 
 export default lobbySlice.reducer;
