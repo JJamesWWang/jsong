@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type Member = {
+export type Member = {
   uid: string;
   websocket?: WebSocket;
   username: string;

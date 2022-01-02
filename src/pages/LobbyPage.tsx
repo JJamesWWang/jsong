@@ -1,15 +1,18 @@
+import { useEffect } from "react";
 import useWebSocket from "react-use-websocket";
 import { websocketEndpoint } from "../app/config";
 
 type LandingPageProps = {
   username: string;
   onWebsocketMessage: (message: MessageEvent) => void;
+  onWebsocketError: () => void;
 };
 
 function LobbyPage(props: LandingPageProps) {
   const { readyState } = useWebSocket(websocketEndpoint(props.username), {
     share: true,
     onMessage: props.onWebsocketMessage,
+    onError: props.onWebsocketError,
   });
   const isConnecting = readyState === 0;
   const isConnected = readyState === 1;
