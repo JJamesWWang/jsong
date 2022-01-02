@@ -7,7 +7,6 @@ import {
 
 export type Member = {
   uid: string;
-  websocket?: WebSocket;
   username: string;
   isHost: boolean;
 };

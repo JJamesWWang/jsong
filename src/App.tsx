@@ -34,6 +34,7 @@ function App() {
   const { readyState } = useWebSocket(
     websocketEndpoint(username),
     {
+      share: true,
       onMessage: onWebsocketMessage,
       onError: onWebsocketError,
     },
