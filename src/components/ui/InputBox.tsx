@@ -37,7 +37,7 @@ function InputBox(props: InputBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <form className={classes.InputBox} onSubmit={onFormSubmit}>
+    <form name={props.name} onSubmit={onFormSubmit} className={classes.InputBox}>
       {props.label && <label htmlFor={props.name}>{props.label}</label>}
       <input
         ref={inputRef}
