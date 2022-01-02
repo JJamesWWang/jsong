@@ -1,3 +1,4 @@
+import { claimHostEndpoint } from "../app/config";
 import { useAppSelector } from "../app/hooks";
 import Chat from "../components/Chat";
 import MemberList from "../components/MemberList";
@@ -6,10 +7,17 @@ import InputBox from "../components/ui/InputBox";
 
 function LobbyPage() {
   const playlistInputSize = 128;
+
+  const member = useAppSelector((state) => state.lobby.member);
+  function claimHost() {
+    if (member) {
+      fetch(claimHostEndpoint(member.uid), { method: "PUT" });
+    }
+  }
+
   const isHost = useAppSelector(
     (state) => state.lobby.member && state.lobby.member.isHost
   );
-
   return (
     <div>
       <MemberList />
@@ -22,7 +30,7 @@ function LobbyPage() {
           error="Please enter a valid Spotify playlist."
         />
       )}
-      {!isHost && <Button>Claim Host</Button>}
+      {!isHost && <Button onClick={claimHost}>Claim Host</Button>}
     </div>
   );
 }
