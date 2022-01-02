@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Member } from "../lobby/lobbySlice";
 import { receiveConnected } from "../serverActions";
 
-const serverMember: Member = {
+export const serverMember: Member = {
   uid: "server",
   username: "Server",
   isHost: false,

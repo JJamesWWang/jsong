@@ -1,5 +1,5 @@
-import chatReducer, { ChatMessage, ChatState } from "./chatSlice";
-import { receiveContext, receiveConnected } from "../serverActions";
+import chatReducer, { ChatMessage, ChatState, serverMember } from "./chatSlice";
+import { receiveConnected } from "../serverActions";
 import { Member } from "../lobby/lobbySlice";
 
 describe("chat reducer", () => {
@@ -9,7 +9,8 @@ describe("chat reducer", () => {
 
   it("should indicate a new member has joined the chat", () => {
     const actual = chatReducer(initialState, receiveConnected(member1));
-    expect(actual.messages[0].member.uid).toEqual("server");
+    expect(actual.messages[0].member).toEqual(serverMember);
+    expect(actual.messages[0].content).toContain(member1.username);
   });
 });
 
