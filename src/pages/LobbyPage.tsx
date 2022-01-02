@@ -8,7 +8,7 @@ function LobbyPage() {
       <MemberList />
       <Chat />
       <InputBox
-        name="spotify_url"
+        name="spotifyUrl"
         label="Paste Spotify playlist link:"
         error="Please enter a valid Spotify playlist."
       />
