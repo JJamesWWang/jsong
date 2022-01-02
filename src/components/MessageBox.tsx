@@ -8,12 +8,7 @@ function MessageBox() {
     </li>
   ));
 
-  return (
-    <>
-      <p>Message Box</p>
-      <ul>{messages}</ul>
-    </>
-  );
+  return <ul>{messages}</ul>;
 }
 
 export default MessageBox;
