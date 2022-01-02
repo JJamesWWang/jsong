@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { receiveContext, receiveConnected } from "../serverActions";
+import {
+  receiveContext,
+  receiveConnected,
+  receiveDisconnected,
+} from "../serverActions";
 
 export type Member = {
   uid: string;
@@ -31,6 +35,14 @@ export const lobbySlice = createSlice({
         state.member = action.payload;
       }
       state.members = [...state.members, action.payload];
+    });
+    builder.addCase(receiveDisconnected, (state, action) => {
+      state.members = state.members.filter(
+        (member) => member.uid !== action.payload.uid
+      );
+      if (state.member?.uid === action.payload.uid) {
+        state.member = null;
+      }
     });
   },
 });
