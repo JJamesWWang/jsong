@@ -13,7 +13,7 @@ export interface LobbyState {
   members: Member[];
 }
 
-const initialState: LobbyState = {
+export const initialState: LobbyState = {
   member: null,
   members: [],
 };
