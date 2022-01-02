@@ -1,5 +1,32 @@
-function LobbyPage() {
-  return <h1>Connected!</h1>;
+import useWebSocket from "react-use-websocket";
+import { websocketEndpoint } from "../app/config";
+
+type LandingPageProps = {
+  username: string;
+  onWebsocketMessage: (message: MessageEvent) => void;
+};
+
+function LobbyPage(props: LandingPageProps) {
+  const { readyState } = useWebSocket(websocketEndpoint(props.username), {
+    share: true,
+    onMessage: props.onWebsocketMessage,
+  });
+  const isConnecting = readyState === 0;
+  const isConnected = readyState === 1;
+  const isConnectionFailed = readyState === 2 || readyState === 3;
+
+  return (
+    <>
+      {isConnecting && <p>Connecting...</p>}
+      {isConnected && <p>Connected!</p>}
+      {isConnectionFailed && (
+        <p>
+          Failed to connect. Please try again later or contact James @
+          jjameswwang@gmail.com
+        </p>
+      )}
+    </>
+  );
 }
 
 export default LobbyPage;

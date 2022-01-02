@@ -1,5 +1,5 @@
-export function postUsername(username: string) {
-  return new Promise<{ data: string }>((resolve) =>
-    setTimeout(() => resolve({ data: username }), 500)
-  );
+import { websocketEndpoint } from "../../app/config";
+
+export function getWebsocket(username: string) {
+  return fetch(websocketEndpoint(username));
 }

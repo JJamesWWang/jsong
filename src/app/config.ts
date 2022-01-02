@@ -1,3 +1,7 @@
-export const websocketEndpoint = "ws://localhost:8000/ws";
-export const authenticateEndpoint = (uid: string, username: string) =>
-  `http://localhost:8000/ws/${uid}/${username}`;
+const baseProtocol = "http";
+const baseUrl = "localhost:8000";
+
+export const websocketEndpoint = (username: string) =>
+  baseProtocol === "http"
+    ? `ws://${baseUrl}/ws/${username}`
+    : `wss://${baseUrl}/ws/${username}`;

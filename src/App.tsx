@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { RootState } from "./app/store";
-import LandingPage from "./pages/LandingPage";
 import LobbyPage from "./pages/LobbyPage";
+import LandingPage from "./pages/LandingPage";
 import "./App.css";
 
 function App() {
-  const isAuthenticated = useAppSelector(
-    (state: RootState) =>
-      state.lobby.connection && state.lobby.connection.isAuthenticated
-  );
+  const [isConnecting, setIsLoggingIn] = useState(false);
+  const [username, setUsername] = useState("");
+  function onSubmitLogin(username: string) {
+    setUsername(username);
+    setIsLoggingIn(true);
+  }
 
   function onWebsocketMessage(message: MessageEvent) {
     const data = JSON.parse(message.data);
@@ -17,8 +20,10 @@ function App() {
 
   return (
     <div className="App">
-      {!isAuthenticated && <LandingPage onWebsocketMessage={onWebsocketMessage} />}
-      {isAuthenticated && <LobbyPage />}
+      {!isConnecting && <LandingPage onSubmitLogin={onSubmitLogin} />}
+      {isConnecting && (
+        <LobbyPage onWebsocketMessage={onWebsocketMessage} username={username} />
+      )}
     </div>
   );
 }
