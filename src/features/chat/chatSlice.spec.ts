@@ -13,23 +13,12 @@ describe("chat reducer", () => {
     expect(actual.messages[0].content).toContain(member1.username);
   });
 
-  // it("shouldn't say anything if an existing member joins again", () => {
-  //   const connected = chatReducer(initialState, receiveConnected(member1));
-  //   const actual = chatReducer(connected, receiveConnected(member1));
-  //   expect(actual.messages).toEqual(connected.messages);
-  // });
-
   it("should indicate when a member leaves", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
     const actual = chatReducer(connected, receiveDisconnected(member1));
     expect(actual.messages[1].member).toEqual(serverMember);
     expect(actual.messages[1].content).toContain(member1.username);
   });
-
-  // it("shouldn't say anything if a nonexistent member leaves", () => {
-  //   const actual = chatReducer(initialState, receiveDisconnected(member1));
-  //   expect(actual.messages.length).toBe(0);
-  // });
 });
 
 const initialState: ChatState = {
