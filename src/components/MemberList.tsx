@@ -8,10 +8,10 @@ function MemberList() {
   ));
 
   return (
-    <div>
+    <>
       <p>Players:</p>
       <ul>{memberList}</ul>
-    </div>
+    </>
   );
 }
 
