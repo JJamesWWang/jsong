@@ -6,3 +6,4 @@ export const receiveConnected = createAction<Member>("server/connected");
 export const receiveDisconnected = createAction<Member>("server/disconnected");
 export const receiveChat =
   createAction<{ member: Member; content: string }>("server/chat");
+export const receiveTransferHost = createAction<Member>("server/transfer_host");

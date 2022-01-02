@@ -3,6 +3,7 @@ import {
   receiveContext,
   receiveConnected,
   receiveDisconnected,
+  receiveTransferHost,
 } from "../serverActions";
 
 export type Member = {
@@ -42,6 +43,18 @@ export const lobbySlice = createSlice({
       if (state.member?.uid === action.payload.uid) {
         state.member = null;
       }
+    });
+    builder.addCase(receiveTransferHost, (state, action) => {
+      if (state.member) {
+        state.member = {
+          ...state.member,
+          isHost: state.member.uid === action.payload.uid,
+        };
+      }
+      state.members = state.members.map((member) => ({
+        ...member,
+        isHost: member.uid === action.payload.uid,
+      }));
     });
   },
 });

@@ -3,6 +3,7 @@ import {
   receiveContext,
   receiveConnected,
   receiveDisconnected,
+  receiveTransferHost,
 } from "../serverActions";
 
 describe("lobby reducer", () => {
@@ -47,6 +48,21 @@ describe("lobby reducer", () => {
     const actual = lobbyReducer(afterConnected, receiveDisconnected(member1));
     expect(actual.member).toEqual(null);
     expect(actual.members).toEqual([]);
+  });
+
+  it("should set the new host when it's first set", () => {
+    const afterConnected = lobbyReducer(initialState, receiveConnected(member2));
+    const actual = lobbyReducer(afterConnected, receiveTransferHost(member2));
+    expect(actual.member).toEqual({ ...member2, isHost: true });
+  });
+
+  it("should only have one host when it's set again", () => {
+    const afterContext = lobbyReducer(initialState, receiveContext([member1, member2]));
+    const actual = lobbyReducer(afterContext, receiveTransferHost(member2));
+    expect(actual.members).toEqual([
+      { ...member1, isHost: false },
+      { ...member2, isHost: true },
+    ]);
   });
 });
 
