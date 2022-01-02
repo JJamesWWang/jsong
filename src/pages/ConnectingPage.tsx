@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useWebSocket from "react-use-websocket";
 import { websocketEndpoint } from "../app/config";
 

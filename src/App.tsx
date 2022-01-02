@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { RootState } from "./app/store";
 import ConnectingPage from "./pages/ConnectingPage";
 import LandingPage from "./pages/LandingPage";
+import LobbyPage from "./pages/LobbyPage";
 import "./App.css";
 
 function App() {
@@ -28,16 +29,21 @@ function App() {
     console.log(data);
   }
 
+  const isAuthenticated = useAppSelector(
+    (state: RootState) => state.lobby.member !== null
+  );
+
   return (
     <div className="App">
       {!isOnline && <LandingPage onSubmitLogin={onSubmitLogin} />}
-      {isOnline && (
+      {isOnline && !isAuthenticated && (
         <ConnectingPage
           onWebsocketMessage={onWebsocketMessage}
           onWebsocketError={onWebsocketError}
           username={username}
         />
       )}
+      {isAuthenticated && <LobbyPage />}
     </div>
   );
 }
