@@ -1,21 +1,11 @@
-import useWebSocket from "react-use-websocket";
-import { websocketEndpoint } from "../app/config";
-
-type LandingPageProps = {
-  username: string;
-  onWebsocketMessage: (message: MessageEvent) => void;
-  onWebsocketError: () => void;
+type ConnectingPageProps = {
+  readyState: number;
 };
 
-function ConnectingPage(props: LandingPageProps) {
-  const { readyState } = useWebSocket(websocketEndpoint(props.username), {
-    share: true,
-    onMessage: props.onWebsocketMessage,
-    onError: props.onWebsocketError,
-  });
-  const isConnecting = readyState === 0;
-  const isConnected = readyState === 1;
-  const isConnectionFailed = readyState === 2 || readyState === 3;
+function ConnectingPage(props: ConnectingPageProps) {
+  const isConnecting = props.readyState === 0;
+  const isConnected = props.readyState === 1;
+  const isConnectionFailed = props.readyState === 2 || props.readyState === 3;
 
   return (
     <>
