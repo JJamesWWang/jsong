@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import classes from "./InputBox.module.css";
+import styles from "./InputBox.module.css";
 
 type InputBoxProps = {
   name: string;
@@ -37,7 +37,7 @@ function InputBox(props: InputBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <form name={props.name} onSubmit={onFormSubmit} className={classes.InputBox}>
+    <form name={props.name} onSubmit={onFormSubmit} className={styles.InputBox}>
       {props.label && <label htmlFor={props.name}>{props.label}</label>}
       <input
         ref={inputRef}
