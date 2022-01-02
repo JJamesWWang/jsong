@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Member } from "../lobby/lobbySlice";
-import { receiveConnected, receiveDisconnected } from "../serverActions";
+import { receiveChat, receiveConnected, receiveDisconnected } from "../serverActions";
 
 export const serverMember: Member = {
   uid: "server",
@@ -41,6 +41,10 @@ export const chatSlice = createSlice({
         serverMember,
         `${leftMember.username} has left the chat.`
       );
+    });
+    builder.addCase(receiveChat, (state, action) => {
+      const { member, content } = action.payload;
+      state.messages = pushMessage(state, member, content);
     });
   },
 });

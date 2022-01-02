@@ -19,6 +19,21 @@ describe("chat reducer", () => {
     expect(actual.messages[1].member).toEqual(serverMember);
     expect(actual.messages[1].content).toContain(member1.username);
   });
+
+  it("should keep track of messages", () => {
+    const connected1 = chatReducer(initialState, receiveConnected(member1));
+    const connected2 = chatReducer(connected1, receiveConnected(member2));
+    const messaged1 = chatReducer(
+      connected2,
+      receiveChat({ member: member1, content: "Hello" })
+    );
+    const actual = chatReducer(
+      messaged1,
+      receiveChat({ member: member2, content: "World!" })
+    );
+    expect(actual.messages[2]).toEqual(message1);
+    expect(actual.messages[3]).toEqual(message2);
+  });
 });
 
 const initialState: ChatState = {
@@ -27,3 +42,4 @@ const initialState: ChatState = {
 const member1: Member = { uid: "1", username: "1", isHost: true };
 const member2: Member = { uid: "2", username: "2", isHost: false };
 const message1: ChatMessage = { member: member1, content: "Hello" };
+const message2: ChatMessage = { member: member2, content: "World!" };
