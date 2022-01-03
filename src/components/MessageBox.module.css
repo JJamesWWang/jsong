@@ -4,6 +4,24 @@
 .ul {
   list-style: none;
   background-color: #363636;
-  padding: 0px;
+  padding: 0 2em;
   height: 50%;
+}
+
+.li {
+  padding-top: 1em;
+}
+
+.li:last-child {
+  padding-bottom: 1em;
+}
+
+.userChat {
+  font-weight: bold;
+  color: violet;
+}
+
+.serverChat {
+  font-weight: bold;
+  color: gold;
 }

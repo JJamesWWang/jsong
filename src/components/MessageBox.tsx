@@ -1,13 +1,18 @@
 import { useAppSelector } from "../app/hooks";
 import styles from "./MessageBox.module.css";
+import { serverMember } from "../features/chat/chatSlice";
 
 function MessageBox() {
   const messageObjects = useAppSelector((state) => state.chat.messages);
-  const messages = messageObjects.map((message, i) => (
-    <li key={i}>
-      {message.member.username}: {message.content}
-    </li>
-  ));
+  const messages = messageObjects.map((message, i) => {
+    const style = message.member === serverMember ? styles.serverChat : styles.userChat;
+    return (
+      <li key={i} className={styles.li}>
+        <span className={style}>{message.member.username + ": "}</span>
+        {message.content}
+      </li>
+    );
+  });
 
   return (
     <div className={styles.messageBox}>
