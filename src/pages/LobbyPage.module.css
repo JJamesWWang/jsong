@@ -2,7 +2,7 @@
   margin-top: 5em;
 }
 
-.topPanel {
+.mainPanel {
   display: flex;
   flex-direction: row;
   gap: 2em;
@@ -12,4 +12,15 @@
 
 .flexFiller {
   flex-grow: 1;
+}
+
+.centerPanel {
+  flex-grow: 2;
+}
+
+.hostOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  margin-top: 2em;
 }

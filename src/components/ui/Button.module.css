@@ -4,8 +4,7 @@
   background: #363636;
   border: 1px solid #e0ceed;
   border-radius: 3px;
-  padding: 5px 10px;
+  padding: 0.5em 1em;
   margin: 0 auto;
-  margin-top: 2em;
   cursor: pointer;
 }

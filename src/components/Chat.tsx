@@ -3,7 +3,6 @@ import { websocketEndpoint } from "../app/config";
 import { useAppSelector } from "../app/hooks";
 import MessageBox from "./MessageBox";
 import InputBox from "./ui/InputBox";
-import styles from "./Chat.module.css";
 
 function Chat() {
   const member = useAppSelector((state) => state.lobby.member);
@@ -14,10 +13,10 @@ function Chat() {
   );
 
   return (
-    <div className={styles.chat}>
+    <>
       <MessageBox />
       <InputBox name="chat" onSubmit={sendJsonMessage} />
-    </div>
+    </>
   );
 }
 
