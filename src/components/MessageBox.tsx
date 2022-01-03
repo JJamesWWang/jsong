@@ -5,10 +5,12 @@ import { serverMember } from "../features/chat/chatSlice";
 function MessageBox() {
   const messageObjects = useAppSelector((state) => state.chat.messages);
   const messages = messageObjects.map((message, i) => {
-    const style = message.member === serverMember ? styles.serverChat : styles.userChat;
+    const style = `${styles.username} + ${
+      message.member === serverMember ? styles.serverChat : styles.userChat
+    }`;
     return (
       <li key={i} className={styles.li}>
-        <span className={style}>{message.member.username + ": "}</span>
+        <span className={style}>{message.member.username + ":"}</span>
         {message.content}
       </li>
     );

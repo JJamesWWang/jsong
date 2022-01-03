@@ -16,12 +16,15 @@
   padding-bottom: 1em;
 }
 
-.userChat {
+.username {
   font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.userChat {
   color: #f5b0ef;
 }
 
 .serverChat {
-  font-weight: bold;
   color: #b657ff;
 }
