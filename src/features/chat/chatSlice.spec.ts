@@ -1,5 +1,10 @@
 import chatReducer, { ChatMessage, ChatState, serverMember } from "./chatSlice";
-import { receiveConnected, receiveDisconnected, receiveChat } from "../serverActions";
+import {
+  receiveConnected,
+  receiveDisconnected,
+  receiveChat,
+  receiveTransferHost,
+} from "../serverActions";
 import { Member } from "../lobby/lobbySlice";
 
 describe("chat reducer", () => {
@@ -33,6 +38,13 @@ describe("chat reducer", () => {
     );
     expect(actual.messages[2]).toEqual(message1);
     expect(actual.messages[3]).toEqual(message2);
+  });
+
+  it("should indicate when the host is transferred", () => {
+    const connected = chatReducer(initialState, receiveConnected(member1));
+    const actual = chatReducer(connected, receiveTransferHost(member1));
+    expect(actual.messages[1].member).toEqual(serverMember);
+    expect(actual.messages[1].content).toContain(member1.username);
   });
 });
 

@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Member } from "../lobby/lobbySlice";
-import { receiveChat, receiveConnected, receiveDisconnected } from "../serverActions";
+import {
+  receiveChat,
+  receiveConnected,
+  receiveDisconnected,
+  receiveTransferHost,
+} from "../serverActions";
 
 export const serverMember: Member = {
   uid: "server",
@@ -45,6 +50,14 @@ export const chatSlice = createSlice({
     builder.addCase(receiveChat, (state, action) => {
       const { member, content } = action.payload;
       state.messages = pushMessage(state, member, content);
+    });
+    builder.addCase(receiveTransferHost, (state, action) => {
+      const newHost = action.payload;
+      state.messages = pushMessage(
+        state,
+        serverMember,
+        `${newHost.username} is now the host.`
+      );
     });
   },
 });
