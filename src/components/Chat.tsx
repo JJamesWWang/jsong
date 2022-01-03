@@ -6,7 +6,6 @@ import InputBox from "./ui/InputBox";
 import styles from "./Chat.module.css";
 
 function Chat() {
-  const chatInputSize = 64;
   const member = useAppSelector((state) => state.lobby.member);
 
   const { sendJsonMessage } = useWebSocket(
@@ -17,7 +16,7 @@ function Chat() {
   return (
     <div className={styles.chat}>
       <MessageBox />
-      <InputBox name="chat" size={chatInputSize} onSubmit={sendJsonMessage} />
+      <InputBox name="chat" onSubmit={sendJsonMessage} />
     </div>
   );
 }

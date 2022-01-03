@@ -4,8 +4,13 @@
   margin-bottom: 5px;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
 .input {
-  display: block;
+  flex-grow: 1;
   padding: 6px;
   border: 1px solid #e0ceed;
   border-radius: 3px;

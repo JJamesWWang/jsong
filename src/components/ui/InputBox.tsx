@@ -37,7 +37,12 @@ function InputBox(props: InputBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <form name={props.name} onSubmit={onFormSubmit} autoComplete="off">
+    <form
+      name={props.name}
+      onSubmit={onFormSubmit}
+      autoComplete="off"
+      className={styles.form}
+    >
       {props.label && (
         <label htmlFor={props.name} className={styles.label}>
           {props.label}
