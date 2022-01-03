@@ -1,18 +1,18 @@
-label {
+.label {
   display: block;
   color: #e3e2e0;
   margin-bottom: 5px;
 }
 
-input {
+.input {
   display: block;
-  padding: 5px;
+  padding: 6px;
   border: 1px solid #e3e2e0;
   border-radius: 3px;
-  background-color: #444;
+  background-color: #363636;
   color: #e3e2e0;
 }
 
-p {
+.p {
   margin-top: 2px;
 }

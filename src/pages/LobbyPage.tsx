@@ -4,6 +4,7 @@ import Chat from "../components/Chat";
 import MemberList from "../components/MemberList";
 import Button from "../components/ui/Button";
 import InputBox from "../components/ui/InputBox";
+import styles from "./LobbyPage.module.css";
 
 function LobbyPage() {
   const playlistInputSize = 128;
@@ -24,9 +25,13 @@ function LobbyPage() {
   }
 
   return (
-    <div>
-      <MemberList />
-      <Chat />
+    <>
+      <div className={styles.topFiller} />
+      <div className={styles.topPanel}>
+        <MemberList />
+        <Chat />
+        <div className={styles.flexFiller}></div>
+      </div>
       {isHost && (
         <>
           <InputBox
@@ -39,7 +44,7 @@ function LobbyPage() {
         </>
       )}
       {!isHost && <Button onClick={claimHost}>Claim Host</Button>}
-    </div>
+    </>
   );
 }
 

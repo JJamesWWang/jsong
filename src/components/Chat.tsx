@@ -3,6 +3,7 @@ import { websocketEndpoint } from "../app/config";
 import { useAppSelector } from "../app/hooks";
 import MessageBox from "./MessageBox";
 import InputBox from "./ui/InputBox";
+import styles from "./Chat.module.css";
 
 function Chat() {
   const chatInputSize = 64;
@@ -14,8 +15,7 @@ function Chat() {
   );
 
   return (
-    <div>
-      <p>Chat:</p>
+    <div className={styles.chat}>
       <MessageBox />
       <InputBox name="chat" size={chatInputSize} onSubmit={sendJsonMessage} />
     </div>

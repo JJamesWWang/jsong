@@ -1,4 +1,5 @@
 import InputBox from "../components/ui/InputBox";
+import styles from "./LandingPage.module.css";
 
 function LandingPage(props: { onSubmitLogin: (username: string) => void }) {
   function usernameEntered(username: string) {
@@ -6,12 +7,16 @@ function LandingPage(props: { onSubmitLogin: (username: string) => void }) {
   }
 
   return (
-    <InputBox
-      name="username"
-      label="Enter your username:"
-      error="Please enter a non-empty username."
-      onSubmit={usernameEntered}
-    />
+    <div className={styles.landingPage}>
+      <div className={styles.inputBox}>
+        <InputBox
+          name="username"
+          label="Enter your username:"
+          error="Please enter a non-empty username."
+          onSubmit={usernameEntered}
+        />
+      </div>
+    </div>
   );
 }
 

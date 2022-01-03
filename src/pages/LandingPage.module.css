@@ -1,0 +1,10 @@
+.landingPage {
+  display: table;
+  margin: auto;
+  height: 100%;
+}
+
+.inputBox {
+  display: table-cell;
+  vertical-align: middle;
+}

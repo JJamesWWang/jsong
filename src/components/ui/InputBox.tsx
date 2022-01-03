@@ -37,16 +37,21 @@ function InputBox(props: InputBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <form name={props.name} onSubmit={onFormSubmit} className={styles.InputBox}>
-      {props.label && <label htmlFor={props.name}>{props.label}</label>}
+    <form name={props.name} onSubmit={onFormSubmit} autoComplete="off">
+      {props.label && (
+        <label htmlFor={props.name} className={styles.label}>
+          {props.label}
+        </label>
+      )}
       <input
         ref={inputRef}
         type="text"
         name={props.name}
         size={props.size || 32}
         onChange={onInputChange}
+        className={styles.input}
       ></input>
-      {isDirty && !isValid && props.error && <p>{props.error}</p>}
+      {isDirty && !isValid && props.error && <p className={styles.p}>{props.error}</p>}
     </form>
   );
 }

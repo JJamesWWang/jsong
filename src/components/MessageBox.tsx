@@ -1,4 +1,5 @@
 import { useAppSelector } from "../app/hooks";
+import styles from "./MessageBox.module.css";
 
 function MessageBox() {
   const messageObjects = useAppSelector((state) => state.chat.messages);
@@ -8,7 +9,12 @@ function MessageBox() {
     </li>
   ));
 
-  return <ul>{messages}</ul>;
+  return (
+    <div className={styles.messageBox}>
+      <p>Chat:</p>
+      <ul className={styles.ul}>{messages}</ul>
+    </div>
+  );
 }
 
 export default MessageBox;

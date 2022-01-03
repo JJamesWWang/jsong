@@ -1,0 +1,15 @@
+.topFiller {
+  margin-top: 5em;
+}
+
+.topPanel {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+.flexFiller {
+  flex-grow: 1;
+}

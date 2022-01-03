@@ -1,17 +1,19 @@
-/* Centers the app, sets background color and default font color */
-html,
-body {
+html {
   height: 100%;
 }
 
-html {
-  display: table;
-  margin: auto;
-}
-
 body {
-  display: table-cell;
-  vertical-align: middle;
+  margin-left: 10em;
+  margin-right: 10em;
+  height: 100%;
   background-color: #222;
   color: #e3e2e0;
+}
+
+.root {
+  height: 100%;
+}
+
+.App {
+  height: 100%;
 }
