@@ -1,16 +1,16 @@
 .label {
   display: block;
-  color: #e3e2e0;
+  color: #e0ceed;
   margin-bottom: 5px;
 }
 
 .input {
   display: block;
   padding: 6px;
-  border: 1px solid #e3e2e0;
+  border: 1px solid #e0ceed;
   border-radius: 3px;
   background-color: #363636;
-  color: #e3e2e0;
+  color: #e0ceed;
 }
 
 .p {
