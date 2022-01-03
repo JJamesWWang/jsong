@@ -18,17 +18,25 @@ function LobbyPage() {
   const isHost = useAppSelector(
     (state) => state.lobby.member && state.lobby.member.isHost
   );
+
+  function startGame() {
+    console.log("Start game");
+  }
+
   return (
     <div>
       <MemberList />
       <Chat />
       {isHost && (
-        <InputBox
-          name="spotifyUrl"
-          size={playlistInputSize}
-          label="Paste Spotify playlist link:"
-          error="Please enter a valid Spotify playlist."
-        />
+        <>
+          <InputBox
+            name="spotifyUrl"
+            size={playlistInputSize}
+            label="Paste Spotify playlist link:"
+            error="Please enter a valid Spotify playlist."
+          />
+          <Button onClick={startGame}>Start Game</Button>
+        </>
       )}
       {!isHost && <Button onClick={claimHost}>Claim Host</Button>}
     </div>
