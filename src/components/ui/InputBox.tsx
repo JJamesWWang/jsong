@@ -6,6 +6,7 @@ type InputBoxProps = {
   size?: number;
   label?: string;
   error?: string;
+  autoFocus?: boolean;
   validator?: (value: string) => boolean;
   onSubmit?: (text: string) => void;
 };
@@ -53,6 +54,7 @@ function InputBox(props: InputBoxProps) {
         type="text"
         name={props.name}
         size={props.size || 32}
+        autoFocus={props.autoFocus}
         onChange={onInputChange}
         className={styles.input}
       ></input>

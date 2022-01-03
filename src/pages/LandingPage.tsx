@@ -13,6 +13,7 @@ function LandingPage(props: { onSubmitLogin: (username: string) => void }) {
           name="username"
           label="Enter your username:"
           error="Please enter a non-empty username."
+          autoFocus={true}
           onSubmit={usernameEntered}
         />
       </div>

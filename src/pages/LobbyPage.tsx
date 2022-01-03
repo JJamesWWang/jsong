@@ -28,6 +28,7 @@ function LobbyPage() {
         name="spotifyUrl"
         label="Paste Spotify playlist link:"
         error="Please enter a valid Spotify playlist."
+        autoFocus={true}
       />
       <Button onClick={startGame}>Start Game</Button>
     </div>
