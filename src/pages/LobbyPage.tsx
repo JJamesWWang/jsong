@@ -32,7 +32,11 @@ function LobbyPage() {
       <Button onClick={startGame}>Start Game</Button>
     </div>
   );
-  const clientOptions = <Button onClick={claimHost}>Claim Host</Button>;
+  const clientOptions = (
+    <div className={styles.clientOptions}>
+      <Button onClick={claimHost}>Claim Host</Button>
+    </div>
+  );
   const playerOptions = isHost ? hostOptions : clientOptions;
 
   return (

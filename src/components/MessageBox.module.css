@@ -1,11 +1,9 @@
-.messageBox {
-}
-
 .ul {
-  list-style: none;
-  background-color: #363636;
+  margin: 0;
   padding: 0 2em;
-  height: 50%;
+  border: 1px solid #888;
+  background-color: #363636;
+  list-style: none;
 }
 
 .li {

@@ -13,9 +13,12 @@
   flex-grow: 1;
   padding: 6px;
   border: 1px solid #e0ceed;
-  border-radius: 3px;
   background-color: #363636;
   color: #e0ceed;
+}
+
+.input:focus {
+  outline: 1px solid #e0ceed;
 }
 
 .p {

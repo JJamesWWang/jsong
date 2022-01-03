@@ -21,6 +21,10 @@
 .hostOptions {
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 1em;
+  margin-top: 2em;
+}
+
+.clientOptions {
   margin-top: 2em;
 }

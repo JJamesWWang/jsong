@@ -17,10 +17,10 @@ function MessageBox() {
   });
 
   return (
-    <div className={styles.messageBox}>
+    <>
       <p>Chat:</p>
       <ul className={styles.ul}>{messages}</ul>
-    </div>
+    </>
   );
 }
 
