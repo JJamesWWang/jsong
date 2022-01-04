@@ -67,6 +67,7 @@ export const gameSlice = createSlice({
     builder.addCase(receiveEndRound, (state, action) => {
       state.timeRemaining = 0;
       state.previousTrack = action.payload;
+      state.players = state.players.map((p) => ({ ...p, isCorrect: false }));
     });
     builder.addCase(receiveDisconnected, (state, action) => {
       state.players = state.players.filter(

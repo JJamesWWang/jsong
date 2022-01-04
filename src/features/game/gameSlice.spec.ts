@@ -46,6 +46,17 @@ describe("game reducer", () => {
     expect(actual.players[1].score).toEqual(0);
   });
 
+  it("should set isCorrect when someone guesses correctly", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const actual = gameReducer(
+      roundStarted,
+      receiveCorrectGuess({ ...player1, isCorrect: true })
+    );
+    expect(actual.players[0].isCorrect).toEqual(true);
+    expect(actual.players[1].isCorrect).toEqual(false);
+  });
+
   it("should set the time remaining to 0 when the round ends", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const roundStarted = gameReducer(started, receiveStartRound());
@@ -58,6 +69,15 @@ describe("game reducer", () => {
     const roundStarted = gameReducer(started, receiveStartRound());
     const actual = gameReducer(roundStarted, receiveEndRound(track1));
     expect(actual.previousTrack).toEqual(track1);
+  });
+
+  it("should set all players back to not correct when the round ends", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const guessedCorrectly = gameReducer(roundStarted, receiveCorrectGuess(player1));
+    const actual = gameReducer(guessedCorrectly, receiveEndRound(track1));
+    expect(actual.players[0].isCorrect).toEqual(false);
+    expect(actual.players[1].isCorrect).toEqual(false);
   });
 
   it("should remove disconnected players", () => {
