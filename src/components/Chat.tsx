@@ -12,13 +12,11 @@ function Chat() {
     { share: true }
   );
 
-  const style = { width: "100%" };
-
   return (
-    <div style={style}>
+    <>
       <MessageBox />
       <InputBox name="chat" autoFocus={true} onSubmit={sendJsonMessage} />
-    </div>
+    </>
   );
 }
 

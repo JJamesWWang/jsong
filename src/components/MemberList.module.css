@@ -6,9 +6,17 @@
 .ul {
   display: flex;
   flex-direction: column;
-  list-style: none;
   padding: 0px;
+  max-height: 75vh;
+  overflow: auto;
   background-color: #363636;
+  list-style: none;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.ul::-webkit-scrollbar {
+  display: none;
 }
 
 .li {

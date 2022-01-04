@@ -1,7 +1,7 @@
 .landingPage {
   display: table;
+  height: 100vh;
   margin: auto;
-  height: 100%;
 }
 
 .inputBox {

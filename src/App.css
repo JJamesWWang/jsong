@@ -1,19 +1,6 @@
-html {
-  height: 100%;
-}
-
 body {
   margin-left: 10vw;
   margin-right: 10vw;
-  height: 100%;
   background-color: #29222e;
   color: #e0ceed;
-}
-
-.root {
-  height: 100%;
-}
-
-.App {
-  height: 100%;
 }
