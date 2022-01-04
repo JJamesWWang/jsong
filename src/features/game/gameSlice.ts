@@ -32,6 +32,7 @@ export interface GameState {
   round: number;
   timeRemaining: number;
   settings: GameSettings | null;
+  isServerReady: boolean;
 }
 
 const initialState: GameState = {
@@ -41,12 +42,17 @@ const initialState: GameState = {
   round: 0,
   timeRemaining: 0,
   settings: null,
+  isServerReady: false,
 };
 
 export const gameSlice = createSlice({
   name: "game",
   initialState,
-  reducers: {},
+  reducers: {
+    decrementTimeRemaining: (state) => {
+      state.timeRemaining = Math.max(0, state.timeRemaining - 1);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(receiveStartGame, (state, action) => {
       state.isActive = true;
@@ -56,6 +62,7 @@ export const gameSlice = createSlice({
     builder.addCase(receiveStartRound, (state) => {
       state.round += 1;
       state.timeRemaining = state.settings!.playLength;
+      state.isServerReady = true;
     });
     builder.addCase(receiveCorrectGuess, (state, action) => {
       const player = state.players.find((p) => p.uid === action.payload.uid);
@@ -68,6 +75,7 @@ export const gameSlice = createSlice({
       state.timeRemaining = 0;
       state.previousTrack = action.payload;
       state.players = state.players.map((p) => ({ ...p, isCorrect: false }));
+      state.isServerReady = false;
     });
     builder.addCase(receiveDisconnected, (state, action) => {
       state.players = state.players.filter(
@@ -76,5 +84,7 @@ export const gameSlice = createSlice({
     });
   },
 });
+
+export const { decrementTimeRemaining } = gameSlice.actions;
 
 export default gameSlice.reducer;

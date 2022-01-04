@@ -6,7 +6,13 @@ import {
   receiveStartGame,
   receiveStartRound,
 } from "../serverActions";
-import gameReducer, { GameSettings, GameState, Player, Track } from "./gameSlice";
+import gameReducer, {
+  decrementTimeRemaining,
+  GameSettings,
+  GameState,
+  Player,
+  Track,
+} from "./gameSlice";
 
 describe("game reducer", () => {
   it("should handle initial state", () => {
@@ -21,6 +27,7 @@ describe("game reducer", () => {
     expect(actual.round).toEqual(0);
     expect(actual.timeRemaining).toEqual(0);
     expect(actual.settings).toEqual(settings);
+    expect(actual.isServerReady).toEqual(false);
   });
 
   it("should start set the timer when the round starts", () => {
@@ -33,6 +40,19 @@ describe("game reducer", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const actual = gameReducer(started, receiveStartRound());
     expect(actual.round).toEqual(1);
+  });
+
+  it("should set the server as ready when the round starts", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const actual = gameReducer(started, receiveStartRound());
+    expect(actual.isServerReady).toEqual(true);
+  });
+
+  it("should decrement timeRemaining", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const actual = gameReducer(roundStarted, decrementTimeRemaining());
+    expect(actual.timeRemaining).toEqual(settings.playLength - 1);
   });
 
   it("should set score correctly when someone guesses correctly", () => {
@@ -55,6 +75,17 @@ describe("game reducer", () => {
     );
     expect(actual.players[0].isCorrect).toEqual(true);
     expect(actual.players[1].isCorrect).toEqual(false);
+  });
+
+  it("shouldn't decrement past 0", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    let state = roundStarted;
+    for (let i = 0; i < settings.playLength; i++) {
+      state = gameReducer(state, decrementTimeRemaining());
+    }
+    const actual = gameReducer(state, decrementTimeRemaining());
+    expect(actual.timeRemaining).toEqual(0);
   });
 
   it("should set the time remaining to 0 when the round ends", () => {
@@ -80,6 +111,13 @@ describe("game reducer", () => {
     expect(actual.players[1].isCorrect).toEqual(false);
   });
 
+  it("should set the server as not ready when the round ends", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const actual = gameReducer(roundStarted, receiveEndRound(track1));
+    expect(actual.isServerReady).toEqual(false);
+  });
+
   it("should remove disconnected players", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const actual = gameReducer(started, receiveDisconnected(member1));
@@ -94,6 +132,7 @@ const initialState: GameState = {
   round: 0,
   timeRemaining: 0,
   settings: null,
+  isServerReady: false,
 };
 
 const settings: GameSettings = {
