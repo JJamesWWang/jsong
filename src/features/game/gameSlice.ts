@@ -1,13 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  receiveDisconnected,
-} from "../serverActions";
+import { receiveDisconnected } from "../serverActions";
 
 export type Player = {
   uid: string;
   username: string;
   score: number;
   isCorrect: boolean;
+};
+
+export type GameSettings = {
+  playlistName: string;
+  maxRounds: number;
+  playLength: number;
+};
+
+export type Track = {
+  name: string;
+  artists: string[];
 };
 
 export interface GameState {
