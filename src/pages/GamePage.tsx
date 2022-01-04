@@ -6,7 +6,6 @@ import Button from "../components/ui/Button";
 import styles from "./GamePage.module.css";
 
 function GamePage() {
-  const player = useAppSelector((state) => state.game.player);
   const isHost = useAppSelector(
     (state) => state.lobby.member && state.lobby.member.isHost
   );

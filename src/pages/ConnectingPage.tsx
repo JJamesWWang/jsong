@@ -1,3 +1,5 @@
+import styles from "./ConnectingPage.module.css";
+
 type ConnectingPageProps = {
   readyState: number;
 };
@@ -8,7 +10,7 @@ function ConnectingPage(props: ConnectingPageProps) {
   const isConnectionFailed = props.readyState === 2 || props.readyState === 3;
 
   return (
-    <>
+    <div className={styles.connectingPage}>
       {isConnecting && <p>Connecting...</p>}
       {isConnectionFailed && (
         <p>
@@ -17,7 +19,7 @@ function ConnectingPage(props: ConnectingPageProps) {
         </p>
       )}
       {isConnected && <p>Connected!</p>}
-    </>
+    </div>
   );
 }
 
