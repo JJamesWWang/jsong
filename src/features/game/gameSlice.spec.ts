@@ -83,7 +83,7 @@ const settings: GameSettings = {
   maxRounds: 3,
   playLength: 10,
 };
-const member1: Member = { uid: "1", username = "1", isHost: false };
+const member1: Member = { uid: "1", username: "1", isHost: false };
 const player1: Player = { uid: "1", username: "1", score: 0, isCorrect: false };
 const player2: Player = { uid: "2", username: "2", score: 0, isCorrect: false };
 const players = [player1, player2];

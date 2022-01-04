@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { receiveDisconnected } from "../serverActions";
+import {
+  receiveCorrectGuess,
+  receiveDisconnected,
+  receiveEndRound,
+  receiveStartGame,
+  receiveStartRound,
+} from "../serverActions";
 
 export type Player = {
   uid: string;
@@ -42,6 +48,26 @@ export const gameSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(receiveStartGame, (state, action) => {
+      state.isActive = true;
+      state.players = action.payload.players;
+      state.settings = action.payload.settings;
+    });
+    builder.addCase(receiveStartRound, (state) => {
+      state.round += 1;
+      state.timeRemaining = state.settings!.playLength;
+    });
+    builder.addCase(receiveCorrectGuess, (state, action) => {
+      const player = state.players.find((p) => p.uid === action.payload.uid);
+      if (player) {
+        player.score += 1;
+        player.isCorrect = true;
+      }
+    });
+    builder.addCase(receiveEndRound, (state, action) => {
+      state.timeRemaining = 0;
+      state.previousTrack = action.payload;
+    });
     builder.addCase(receiveDisconnected, (state, action) => {
       state.players = state.players.filter(
         (player) => player.uid !== action.payload.uid
