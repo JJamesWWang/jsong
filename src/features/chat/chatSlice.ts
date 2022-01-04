@@ -6,8 +6,10 @@ import {
   receiveConnected,
   receiveCorrectGuess,
   receiveDisconnected,
+  receiveDownloadingTrack,
   receiveEndGame,
   receiveStartGame,
+  receiveStartRound,
   receiveTransferHost,
 } from "../serverActions";
 
@@ -65,6 +67,12 @@ export const chatSlice = createSlice({
     });
     builder.addCase(receiveStartGame, (state) => {
       state.messages = pushMessage(state, serverMember, "Game has started.");
+    });
+    builder.addCase(receiveDownloadingTrack, (state) => {
+      state.messages = pushMessage(state, serverMember, "Downloading next track...");
+    });
+    builder.addCase(receiveStartRound, (state) => {
+      state.messages = pushMessage(state, serverMember, "Sending track to everyone...");
     });
     builder.addCase(receiveCorrectGuess, (state, action) => {
       state.messages = pushMessage(

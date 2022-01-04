@@ -7,6 +7,8 @@ import {
   receiveStartGame,
   receiveEndGame,
   receiveCorrectGuess,
+  receiveDownloadingTrack,
+  receiveStartRound,
 } from "../serverActions";
 import { Member } from "../lobby/lobbySlice";
 import { Player } from "../game/gameSlice";
@@ -55,6 +57,21 @@ describe("chat reducer", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
     const actual = chatReducer(connected, receiveStartGame(gameStartPayload));
     expect(actual.messages[1].member).toEqual(serverMember);
+  });
+
+  it("should indicate that the server is downloading the next track", () => {
+    const connected = chatReducer(initialState, receiveConnected(member1));
+    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const actual = chatReducer(started, receiveDownloadingTrack());
+    expect(actual.messages[2].member).toEqual(serverMember);
+  });
+
+  it("should indicate when the round is ready to start", () => {
+    const connected = chatReducer(initialState, receiveConnected(member1));
+    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const downloaded = chatReducer(started, receiveDownloadingTrack());
+    const actual = chatReducer(downloaded, receiveStartRound());
+    expect(actual.messages[3].member).toEqual(serverMember);
   });
 
   it("should announce a player guessed correctly", () => {
