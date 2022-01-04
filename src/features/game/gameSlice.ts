@@ -20,13 +20,21 @@ export type Track = {
 };
 
 export interface GameState {
-  player: Player | null;
+  isActive: boolean;
   players: Player[];
+  previousTrack: Track | null;
+  round: number;
+  timeRemaining: number;
+  settings: GameSettings | null;
 }
 
 const initialState: GameState = {
-  player: null,
+  isActive: false,
   players: [],
+  previousTrack: null,
+  round: 0,
+  timeRemaining: 0,
+  settings: null,
 };
 
 export const gameSlice = createSlice({
@@ -38,9 +46,6 @@ export const gameSlice = createSlice({
       state.players = state.players.filter(
         (player) => player.uid !== action.payload.uid
       );
-      if (state.player?.uid === action.payload.uid) {
-        state.player = null;
-      }
     });
   },
 });

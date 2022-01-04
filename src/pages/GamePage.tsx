@@ -1,8 +1,8 @@
 import { useAppSelector } from "../app/hooks";
 import Chat from "../components/Chat";
-import MemberList from "../components/MemberList";
+import GameInformation from "../components/GameInformation";
+import Leaderboard from "../components/Leaderboard";
 import Button from "../components/ui/Button";
-import InputBox from "../components/ui/InputBox";
 import styles from "./GamePage.module.css";
 
 function GamePage() {
@@ -13,12 +13,6 @@ function GamePage() {
 
   const hostOptions = (
     <div className={styles.hostOptions}>
-      <InputBox
-        name="spotifyUrl"
-        label="Paste Spotify playlist link:"
-        error="Please enter a valid Spotify playlist."
-        autoFocus={true}
-      />
       {/* <Button onClick={startGame}>Start Game</Button> */}
     </div>
   );
@@ -33,12 +27,12 @@ function GamePage() {
     <>
       <div className={styles.topFiller} />
       <div className={styles.mainPanel}>
-        <MemberList />
+        <Leaderboard />
         <div className={styles.centerPanel}>
           <Chat />
           {playerOptions}
         </div>
-        <div className={styles.flexFiller}></div>
+        <GameInformation />
       </div>
     </>
   );
