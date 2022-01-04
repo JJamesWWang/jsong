@@ -8,6 +8,7 @@ type InputBoxProps = {
   error?: string;
   autoFocus?: boolean;
   validator?: (value: string) => boolean;
+  onChange?: (value: string) => void;
   onSubmit?: (text: string) => void;
 };
 
@@ -21,6 +22,9 @@ function InputBox(props: InputBoxProps) {
     const value = event.target.value;
     setIsValid(validate(value));
     setIsDirty(true);
+    if (props.onChange) {
+      props.onChange(value);
+    }
   }
 
   function onFormSubmit(event: React.FormEvent<HTMLFormElement>) {

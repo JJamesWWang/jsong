@@ -7,6 +7,7 @@ import LandingPage from "./pages/LandingPage";
 import LobbyPage from "./pages/LobbyPage";
 import useWebSocket from "react-use-websocket";
 import "./App.css";
+import GamePage from "./pages/GamePage";
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);
@@ -45,11 +46,15 @@ function App() {
   const isAuthenticated = useAppSelector(
     (state: RootState) => state.lobby.member !== null
   );
+
+  const gameIsActive = useAppSelector((state: RootState) => state.game.isActive);
+
   return (
     <div className="App">
       {!isOnline && landingPage}
       {isOnline && !isAuthenticated && connectingPage}
-      {isAuthenticated && <LobbyPage />}
+      {isOnline && isAuthenticated && !gameIsActive && <LobbyPage />}
+      {isOnline && isAuthenticated && gameIsActive && <GamePage />}
     </div>
   );
 }

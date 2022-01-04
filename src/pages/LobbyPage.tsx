@@ -1,4 +1,9 @@
-import { claimHostEndpoint } from "../app/config";
+import { useState } from "react";
+import {
+  claimHostEndpoint,
+  setPlaylistEndpoint,
+  startGameEndpoint,
+} from "../app/config";
 import { useAppSelector } from "../app/hooks";
 import Chat from "../components/Chat";
 import MemberList from "../components/MemberList";
@@ -18,8 +23,37 @@ function LobbyPage() {
     (state) => state.lobby.member && state.lobby.member.isHost
   );
 
-  function startGame() {
-    console.log("Start game");
+  const [playlist, setPlaylist] = useState("");
+  async function startGame() {
+    if (await trySetPlaylist()) {
+      startGame();
+    }
+
+    async function trySetPlaylist() {
+      try {
+        const response = await fetch(setPlaylistEndpoint, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ link: playlist }),
+        });
+        if (response.status !== 200) {
+          throw new Error("Playlist invalid");
+        }
+        return true;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
+
+    function startGame() {
+      if (member) {
+        fetch(startGameEndpoint(member.uid), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
   }
 
   const hostOptions = (
@@ -29,6 +63,7 @@ function LobbyPage() {
         label="Paste Spotify playlist link:"
         error="Please enter a valid Spotify playlist."
         autoFocus={true}
+        onChange={(value) => setPlaylist(value)}
       />
       <Button onClick={startGame}>Start Game</Button>
     </div>

@@ -1,0 +1,14 @@
+.gameInformation {
+  display: flex;
+  flex-direction: column;
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.information p {
+  margin: 0;
+}

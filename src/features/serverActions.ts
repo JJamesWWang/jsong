@@ -10,6 +10,7 @@ export const receiveChat =
 export const receiveTransferHost = createAction<Member>("server/transfer_host");
 export const receiveStartGame =
   createAction<{ players: Player[]; settings: GameSettings }>("server/start_game");
+export const receiveDownloadingTrack = createAction("server/downloading_track");
 export const receiveNextRound = createAction("server/next_round");
 export const receiveStartRound = createAction("server/start_round");
 export const receiveCorrectGuess = createAction<Player>("server/correct_guess");

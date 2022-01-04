@@ -8,3 +8,16 @@ export const websocketEndpoint = (username: string) =>
 
 export const claimHostEndpoint = (uid: string) =>
   `${baseProtocol}://${baseUrl}/lobby/host/${uid}`;
+
+export const setPlaylistEndpoint = `${baseProtocol}://${baseUrl}/lobby/playlist`;
+
+export const startGameEndpoint = (uid: string) =>
+  `${baseProtocol}://${baseUrl}/lobby/start/${uid}`;
+
+export const setReadyEndpoint = (uid: string) =>
+  `${baseProtocol}://${baseUrl}/lobby/ready/${uid}`;
+
+export const getCurrentTrackEndpoint = `${baseProtocol}://${baseUrl}/lobby/track`;
+
+export const endGameEndpoint = (uid: string) =>
+  `${baseProtocol}://${baseUrl}/lobby/end/${uid}`;
