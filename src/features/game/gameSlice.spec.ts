@@ -2,6 +2,7 @@ import { Member } from "../lobby/lobbySlice";
 import {
   receiveCorrectGuess,
   receiveDisconnected,
+  receiveEndGame,
   receiveEndRound,
   receiveStartGame,
   receiveStartRound,
@@ -122,6 +123,14 @@ describe("game reducer", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const actual = gameReducer(started, receiveDisconnected(member1));
     expect(actual.players).toEqual([player2]);
+  });
+
+  it("should set the game as inactive when the game ends", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const roundEnded = gameReducer(roundStarted, receiveEndRound(track1));
+    const actual = gameReducer(roundEnded, receiveEndGame());
+    expect(actual.isActive).toEqual(false);
   });
 });
 

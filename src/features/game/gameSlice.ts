@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   receiveCorrectGuess,
   receiveDisconnected,
+  receiveEndGame,
   receiveEndRound,
   receiveStartGame,
   receiveStartRound,
@@ -81,6 +82,15 @@ export const gameSlice = createSlice({
       state.players = state.players.filter(
         (player) => player.uid !== action.payload.uid
       );
+    });
+    builder.addCase(receiveEndGame, (state) => {
+      state.isActive = initialState.isActive;
+      state.players = initialState.players;
+      state.previousTrack = initialState.previousTrack;
+      state.round = initialState.round;
+      state.timeRemaining = initialState.timeRemaining;
+      state.settings = initialState.settings;
+      state.isServerReady = initialState.isServerReady;
     });
   },
 });

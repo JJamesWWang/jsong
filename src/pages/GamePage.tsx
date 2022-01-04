@@ -1,5 +1,5 @@
 import { useAppSelector } from "../app/hooks";
-import { trackEndpoint } from "../app/config";
+import { endGameEndpoint, trackEndpoint } from "../app/config";
 import Chat from "../components/Chat";
 import GameInformation from "../components/GameInformation";
 import Leaderboard from "../components/Leaderboard";
@@ -12,9 +12,18 @@ function GamePage() {
     (state) => state.lobby.member && state.lobby.member.isHost
   );
 
+  const member = useAppSelector((state) => state.lobby.member);
+  function endGame() {
+    if (member) {
+      fetch(endGameEndpoint(member.uid), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }
   const hostOptions = (
     <div className={styles.hostOptions}>
-      {/* <Button onClick={startGame}>Start Game</Button> */}
+      {<Button onClick={endGame}>End Game</Button>}
     </div>
   );
   const clientOptions = (
