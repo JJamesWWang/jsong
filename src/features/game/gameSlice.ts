@@ -60,7 +60,7 @@ export const gameSlice = createSlice({
     builder.addCase(receiveCorrectGuess, (state, action) => {
       const player = state.players.find((p) => p.uid === action.payload.uid);
       if (player) {
-        player.score += 1;
+        player.score += action.payload.score;
         player.isCorrect = true;
       }
     });

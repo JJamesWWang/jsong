@@ -38,14 +38,12 @@ describe("game reducer", () => {
   it("should set score correctly when someone guesses correctly", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const roundStarted = gameReducer(started, receiveStartRound());
-    const actual = gameReducer(roundStarted, receiveCorrectGuess(player1));
+    const actual = gameReducer(
+      roundStarted,
+      receiveCorrectGuess({ ...player1, score: player1.score + 1 })
+    );
     expect(actual.players[0].score).toEqual(1);
     expect(actual.players[1].score).toEqual(0);
-    const actual2 = gameReducer(actual, receiveCorrectGuess(player2));
-    expect(actual2.players[0].score).toEqual(1);
-    expect(actual2.players[1].score).toEqual(1);
-    const actual3 = gameReducer(actual2, receiveCorrectGuess(player1));
-    expect(actual3.players[0].score).toEqual(2);
   });
 
   it("should set the time remaining to 0 when the round ends", () => {
