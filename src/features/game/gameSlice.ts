@@ -61,11 +61,17 @@ export const gameSlice = createSlice({
       state.settings = action.payload.settings;
     });
     builder.addCase(receiveStartRound, (state) => {
+      if (!state.isActive) {
+        return;
+      }
       state.round += 1;
       state.timeRemaining = state.settings!.playLength;
       state.isServerReady = true;
     });
     builder.addCase(receiveCorrectGuess, (state, action) => {
+      if (!state.isActive) {
+        return;
+      }
       const player = state.players.find((p) => p.uid === action.payload.uid);
       if (player) {
         player.score += action.payload.score;
@@ -73,12 +79,18 @@ export const gameSlice = createSlice({
       }
     });
     builder.addCase(receiveEndRound, (state, action) => {
+      if (!state.isActive) {
+        return;
+      }
       state.timeRemaining = 0;
       state.previousTrack = action.payload;
       state.players = state.players.map((p) => ({ ...p, isCorrect: false }));
       state.isServerReady = false;
     });
     builder.addCase(receiveDisconnected, (state, action) => {
+      if (!state.isActive) {
+        return;
+      }
       state.players = state.players.filter(
         (player) => player.uid !== action.payload.uid
       );
