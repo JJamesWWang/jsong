@@ -4,8 +4,12 @@ import {
   receiveDisconnected,
   receiveChat,
   receiveTransferHost,
+  receiveStartGame,
+  receiveEndGame,
+  receiveCorrectGuess,
 } from "../serverActions";
 import { Member } from "../lobby/lobbySlice";
+import { Player } from "../game/gameSlice";
 
 describe("chat reducer", () => {
   it("should handle initial state", () => {
@@ -46,6 +50,27 @@ describe("chat reducer", () => {
     expect(actual.messages[1].member).toEqual(serverMember);
     expect(actual.messages[1].content).toContain(member1.username);
   });
+
+  it("should announce the game is starting", () => {
+    const connected = chatReducer(initialState, receiveConnected(member1));
+    const actual = chatReducer(connected, receiveStartGame(gameStartPayload));
+    expect(actual.messages[1].member).toEqual(serverMember);
+  });
+
+  it("should announce a player guessed correctly", () => {
+    const connected = chatReducer(initialState, receiveConnected(member1));
+    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const actual = chatReducer(started, receiveCorrectGuess(player1));
+    expect(actual.messages[2].member).toEqual(serverMember);
+    expect(actual.messages[2].content).toContain(player1.username);
+  });
+
+  it("should announce the game is over", () => {
+    const connected = chatReducer(initialState, receiveConnected(member1));
+    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const actual = chatReducer(started, receiveEndGame());
+    expect(actual.messages[2].member).toEqual(serverMember);
+  });
 });
 
 const initialState: ChatState = {
@@ -55,3 +80,9 @@ const member1: Member = { uid: "1", username: "1", isHost: true };
 const member2: Member = { uid: "2", username: "2", isHost: false };
 const message1: ChatMessage = { member: member1, content: "Hello" };
 const message2: ChatMessage = { member: member2, content: "World!" };
+const player1: Player = { uid: "1", username: "1", score: 0, isCorrect: false };
+const player2: Player = { uid: "2", username: "2", score: 0, isCorrect: false };
+const gameStartPayload = {
+  players: [player1, player2],
+  settings: { playlistName: "test", maxRounds: 1, playLength: 1 },
+};

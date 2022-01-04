@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Player } from "../game/gameSlice";
 import { Member } from "../lobby/lobbySlice";
 import {
   receiveChat,
   receiveConnected,
+  receiveCorrectGuess,
   receiveDisconnected,
+  receiveEndGame,
+  receiveStartGame,
   receiveTransferHost,
 } from "../serverActions";
 
@@ -58,6 +62,19 @@ export const chatSlice = createSlice({
         serverMember,
         `${newHost.username} is now the host.`
       );
+    });
+    builder.addCase(receiveStartGame, (state) => {
+      state.messages = pushMessage(state, serverMember, "Game has started.");
+    });
+    builder.addCase(receiveCorrectGuess, (state, action) => {
+      state.messages = pushMessage(
+        state,
+        serverMember,
+        `${action.payload.username} has guessed correctly!`
+      );
+    });
+    builder.addCase(receiveEndGame, (state) => {
+      state.messages = pushMessage(state, serverMember, "Game has ended.");
     });
   },
 });
