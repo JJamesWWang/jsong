@@ -29,7 +29,10 @@ function GamePage() {
   const [player, setPlayer] = useState<ReactAudioPlayer | null>(null);
   async function setReady() {
     if (member) {
-      fetch(setReadyEndpoint(member.uid), { method: "POST" });
+      fetch(setReadyEndpoint(member.uid), {
+        method: "POST",
+        headers: { pragma: "no-cache", "cache-control": "no-cache" },
+      });
     }
   }
 
