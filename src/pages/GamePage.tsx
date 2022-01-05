@@ -59,7 +59,7 @@ function GamePage() {
           src={trackEndpoint}
           ref={(e) => setPlayer(e)}
           onCanPlay={(e) => setReady()}
-          volume={0.15}
+          volume={0.05}
         />
       )}
       <div className={styles.topFiller} />
