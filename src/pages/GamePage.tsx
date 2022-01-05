@@ -1,5 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../app/hooks";
-import { endGameEndpoint, trackEndpoint } from "../app/config";
+import { endGameEndpoint, setReadyEndpoint, trackEndpoint } from "../app/config";
 import Chat from "../components/Chat";
 import GameInformation from "../components/GameInformation";
 import Leaderboard from "../components/Leaderboard";
@@ -8,10 +9,6 @@ import styles from "./GamePage.module.css";
 import ReactAudioPlayer from "react-audio-player";
 
 function GamePage() {
-  const isHost = useAppSelector(
-    (state) => state.lobby.member && state.lobby.member.isHost
-  );
-
   const member = useAppSelector((state) => state.lobby.member);
   function endGame() {
     if (member) {
@@ -26,15 +23,33 @@ function GamePage() {
       {<Button onClick={endGame}>End Game</Button>}
     </div>
   );
-  const clientOptions = (
-    <div className={styles.clientOptions}>
-      {/* <Button onClick={claimHost}>Claim Host</Button> */}
-    </div>
-  );
-  const playerOptions = isHost ? hostOptions : clientOptions;
+  const playerOptions = member?.isHost ? hostOptions : null;
+
+  const [player, setPlayer] = useState<ReactAudioPlayer | null>(null);
+  async function setReady() {
+    if (member) {
+      fetch(setReadyEndpoint(member.uid), { method: "POST" });
+    }
+  }
+
+  const isServerReady = useAppSelector((state) => state.game.isServerReady);
+  const arePlayersReady = useAppSelector((state) => state.game.arePlayersReady);
+  useEffect(() => {
+    if (arePlayersReady) {
+      player?.audioEl.current?.play();
+    }
+  }, [player, arePlayersReady]);
+
   return (
     <>
-      <ReactAudioPlayer src={trackEndpoint} />
+      {isServerReady && (
+        <ReactAudioPlayer
+          src={trackEndpoint}
+          ref={(e) => setPlayer(e)}
+          onCanPlay={(e) => setReady()}
+          volume={0.15}
+        />
+      )}
       <div className={styles.topFiller} />
       <div className={styles.mainPanel}>
         <Leaderboard />
