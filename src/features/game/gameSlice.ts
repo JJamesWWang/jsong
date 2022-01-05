@@ -4,6 +4,7 @@ import {
   receiveDisconnected,
   receiveEndGame,
   receiveEndRound,
+  receiveNextRound,
   receiveStartGame,
   receiveStartRound,
 } from "../serverActions";
@@ -34,6 +35,7 @@ export interface GameState {
   timeRemaining: number;
   settings: GameSettings | null;
   isServerReady: boolean;
+  arePlayersReady: boolean;
 }
 
 const initialState: GameState = {
@@ -44,6 +46,7 @@ const initialState: GameState = {
   timeRemaining: 0,
   settings: null,
   isServerReady: false,
+  arePlayersReady: false,
 };
 
 export const gameSlice = createSlice({
@@ -60,13 +63,16 @@ export const gameSlice = createSlice({
       state.players = action.payload.players;
       state.settings = action.payload.settings;
     });
+    builder.addCase(receiveNextRound, (state) => {
+      state.isServerReady = true;
+    });
     builder.addCase(receiveStartRound, (state) => {
       if (!state.isActive) {
         return;
       }
       state.round += 1;
       state.timeRemaining = state.settings!.playLength;
-      state.isServerReady = true;
+      state.arePlayersReady = true;
     });
     builder.addCase(receiveCorrectGuess, (state, action) => {
       if (!state.isActive) {
@@ -86,6 +92,7 @@ export const gameSlice = createSlice({
       state.previousTrack = action.payload;
       state.players = state.players.map((p) => ({ ...p, isCorrect: false }));
       state.isServerReady = false;
+      state.arePlayersReady = false;
     });
     builder.addCase(receiveDisconnected, (state, action) => {
       if (!state.isActive) {
@@ -102,7 +109,7 @@ export const gameSlice = createSlice({
       state.round = initialState.round;
       state.timeRemaining = initialState.timeRemaining;
       state.settings = initialState.settings;
-      state.isServerReady = initialState.isServerReady;
+      state.arePlayersReady = initialState.arePlayersReady;
     });
   },
 });

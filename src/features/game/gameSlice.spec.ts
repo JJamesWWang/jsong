@@ -4,6 +4,7 @@ import {
   receiveDisconnected,
   receiveEndGame,
   receiveEndRound,
+  receiveNextRound,
   receiveStartGame,
   receiveStartRound,
 } from "../serverActions";
@@ -28,7 +29,13 @@ describe("game reducer", () => {
     expect(actual.round).toEqual(0);
     expect(actual.timeRemaining).toEqual(0);
     expect(actual.settings).toEqual(settings);
-    expect(actual.isServerReady).toEqual(false);
+    expect(actual.arePlayersReady).toEqual(false);
+  });
+
+  it("should set the server as ready when the round advances", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const actual = gameReducer(started, receiveNextRound());
+    expect(actual.isServerReady).toEqual(true);
   });
 
   it("should start set the timer when the round starts", () => {
@@ -43,10 +50,10 @@ describe("game reducer", () => {
     expect(actual.round).toEqual(1);
   });
 
-  it("should set the server as ready when the round starts", () => {
+  it("should set players as ready when the round starts", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const actual = gameReducer(started, receiveStartRound());
-    expect(actual.isServerReady).toEqual(true);
+    expect(actual.arePlayersReady).toEqual(true);
   });
 
   it("should decrement timeRemaining", () => {
@@ -119,6 +126,13 @@ describe("game reducer", () => {
     expect(actual.isServerReady).toEqual(false);
   });
 
+  it("should set players as not ready when the round ends", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const actual = gameReducer(roundStarted, receiveEndRound(track1));
+    expect(actual.arePlayersReady).toEqual(false);
+  });
+
   it("should remove disconnected players", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const actual = gameReducer(started, receiveDisconnected(member1));
@@ -142,6 +156,7 @@ const initialState: GameState = {
   timeRemaining: 0,
   settings: null,
   isServerReady: false,
+  arePlayersReady: false,
 };
 
 const settings: GameSettings = {
