@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useAppSelector } from "../app/hooks";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { endGameEndpoint, setReadyEndpoint, trackEndpoint } from "../app/config";
 import Chat from "../components/Chat";
 import GameInformation from "../components/GameInformation";
@@ -7,6 +7,7 @@ import Leaderboard from "../components/Leaderboard";
 import Button from "../components/ui/Button";
 import styles from "./GamePage.module.css";
 import ReactAudioPlayer from "react-audio-player";
+import { decrementTimeRemaining } from "../features/game/gameSlice";
 
 function GamePage() {
   const member = useAppSelector((state) => state.lobby.member);
@@ -39,6 +40,14 @@ function GamePage() {
       player?.audioEl.current?.play();
     }
   }, [player, arePlayersReady]);
+
+  const dispatch = useAppDispatch();
+  const timeRemaining = useAppSelector((state) => state.game.timeRemaining);
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(decrementTimeRemaining());
+    }, 1000);
+  }, [dispatch, timeRemaining]);
 
   return (
     <>
