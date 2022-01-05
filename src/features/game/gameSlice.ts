@@ -80,7 +80,7 @@ export const gameSlice = createSlice({
       }
       const player = state.players.find((p) => p.uid === action.payload.uid);
       if (player) {
-        player.score += action.payload.score;
+        player.score = action.payload.score;
         player.isCorrect = true;
       }
     });
