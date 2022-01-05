@@ -9,9 +9,10 @@ import {
   receiveCorrectGuess,
   receiveDownloadingTrack,
   receiveStartRound,
+  receiveEndRound,
 } from "../serverActions";
 import { Member } from "../lobby/lobbySlice";
-import { Player } from "../game/gameSlice";
+import { Player, Track } from "../game/gameSlice";
 
 describe("chat reducer", () => {
   it("should handle initial state", () => {
@@ -82,6 +83,14 @@ describe("chat reducer", () => {
     expect(actual.messages[2].content).toContain(player1.username);
   });
 
+  it("should display the track when the round ends", () => {
+    const connected = chatReducer(initialState, receiveConnected(member1));
+    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const roundStarted = chatReducer(started, receiveStartRound());
+    const actual = chatReducer(roundStarted, receiveEndRound(track));
+    expect(actual.messages[2].member).toEqual(serverMember);
+  });
+
   it("should announce the game is over", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
     const started = chatReducer(connected, receiveStartGame(gameStartPayload));
@@ -103,3 +112,4 @@ const gameStartPayload = {
   players: [player1, player2],
   settings: { playlistName: "test", maxRounds: 1, playLength: 1 },
 };
+const track: Track = { name: "test", artists: ["test"] };

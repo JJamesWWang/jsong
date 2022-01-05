@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Player } from "../game/gameSlice";
 import { Member } from "../lobby/lobbySlice";
 import {
   receiveChat,
@@ -8,6 +7,7 @@ import {
   receiveDisconnected,
   receiveDownloadingTrack,
   receiveEndGame,
+  receiveEndRound,
   receiveStartGame,
   receiveStartRound,
   receiveTransferHost,
@@ -79,6 +79,15 @@ export const chatSlice = createSlice({
         state,
         serverMember,
         `${action.payload.username} has guessed correctly!`
+      );
+    });
+    builder.addCase(receiveEndRound, (state, action) => {
+      state.messages = pushMessage(
+        state,
+        serverMember,
+        `The playing track was: ${action.payload.name} by ${action.payload.artists.join(
+          ", "
+        )}`
       );
     });
     builder.addCase(receiveEndGame, (state) => {
