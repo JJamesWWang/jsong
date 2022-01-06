@@ -31,7 +31,7 @@ function GamePage() {
     if (member) {
       fetch(setReadyEndpoint(member.uid), {
         method: "POST",
-        headers: { pragma: "no-cache", "cache-control": "no-cache" },
+        cache: "no-store",
       });
     }
   }
