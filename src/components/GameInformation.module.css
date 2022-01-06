@@ -1,6 +1,8 @@
 .gameInformation {
   display: flex;
   flex-direction: column;
+  width: 15vw;
+  max-width: 15vw;
 }
 
 .information {
