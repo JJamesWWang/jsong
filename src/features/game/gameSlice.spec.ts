@@ -1,4 +1,3 @@
-import { Member } from "../lobby/lobbySlice";
 import {
   receiveCorrectGuess,
   receiveDisconnected,
@@ -15,6 +14,7 @@ import gameReducer, {
   Player,
   Track,
 } from "./gameSlice";
+import { member1 } from "../lobby/lobbySlice.spec";
 
 describe("game reducer", () => {
   it("should handle initial state", () => {
@@ -164,9 +164,8 @@ const settings: GameSettings = {
   maxRounds: 3,
   playLength: 10,
 };
-const member1: Member = { uid: "1", username: "1", isHost: false };
-const player1: Player = { uid: "1", username: "1", score: 0, isCorrect: false };
-const player2: Player = { uid: "2", username: "2", score: 0, isCorrect: false };
+export const player1: Player = { uid: "1", username: "1", score: 0, isCorrect: false };
+export const player2: Player = { uid: "2", username: "2", score: 0, isCorrect: false };
 const players = [player1, player2];
-const startGamePayload = { settings, players };
-const track1: Track = { name: "track1", artists: ["artist1"] };
+export const startGamePayload = { players, settings };
+export const track1: Track = { name: "track1", artists: ["artist1"] };

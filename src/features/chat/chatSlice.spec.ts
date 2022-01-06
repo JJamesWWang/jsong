@@ -11,8 +11,8 @@ import {
   receiveStartRound,
   receiveEndRound,
 } from "../serverActions";
-import { Member } from "../lobby/lobbySlice";
-import { Player, Track } from "../game/gameSlice";
+import { member1, member2 } from "../lobby/lobbySlice.spec";
+import { player1, startGamePayload, track1 } from "../game/gameSlice.spec";
 
 describe("chat reducer", () => {
   it("should handle initial state", () => {
@@ -56,20 +56,20 @@ describe("chat reducer", () => {
 
   it("should announce the game is starting", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
-    const actual = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const actual = chatReducer(connected, receiveStartGame(startGamePayload));
     expect(actual.messages[1].member).toEqual(serverMember);
   });
 
   it("should indicate that the server is downloading the next track", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
-    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const started = chatReducer(connected, receiveStartGame(startGamePayload));
     const actual = chatReducer(started, receiveDownloadingTrack());
     expect(actual.messages[2].member).toEqual(serverMember);
   });
 
   it("should indicate when the round is ready to start", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
-    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const started = chatReducer(connected, receiveStartGame(startGamePayload));
     const downloaded = chatReducer(started, receiveDownloadingTrack());
     const actual = chatReducer(downloaded, receiveStartRound());
     expect(actual.messages[3].member).toEqual(serverMember);
@@ -77,7 +77,7 @@ describe("chat reducer", () => {
 
   it("should announce a player guessed correctly", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
-    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const started = chatReducer(connected, receiveStartGame(startGamePayload));
     const actual = chatReducer(started, receiveCorrectGuess(player1));
     expect(actual.messages[2].member).toEqual(serverMember);
     expect(actual.messages[2].content).toContain(player1.username);
@@ -85,15 +85,15 @@ describe("chat reducer", () => {
 
   it("should display the track when the round ends", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
-    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const started = chatReducer(connected, receiveStartGame(startGamePayload));
     const roundStarted = chatReducer(started, receiveStartRound());
-    const actual = chatReducer(roundStarted, receiveEndRound(track));
+    const actual = chatReducer(roundStarted, receiveEndRound(track1));
     expect(actual.messages[2].member).toEqual(serverMember);
   });
 
   it("should announce the game is over", () => {
     const connected = chatReducer(initialState, receiveConnected(member1));
-    const started = chatReducer(connected, receiveStartGame(gameStartPayload));
+    const started = chatReducer(connected, receiveStartGame(startGamePayload));
     const actual = chatReducer(started, receiveEndGame());
     expect(actual.messages[2].member).toEqual(serverMember);
   });
@@ -102,14 +102,5 @@ describe("chat reducer", () => {
 const initialState: ChatState = {
   messages: [],
 };
-const member1: Member = { uid: "1", username: "1", isHost: true };
-const member2: Member = { uid: "2", username: "2", isHost: false };
 const message1: ChatMessage = { member: member1, content: "Hello" };
 const message2: ChatMessage = { member: member2, content: "World!" };
-const player1: Player = { uid: "1", username: "1", score: 0, isCorrect: false };
-const player2: Player = { uid: "2", username: "2", score: 0, isCorrect: false };
-const gameStartPayload = {
-  players: [player1, player2],
-  settings: { playlistName: "test", maxRounds: 1, playLength: 1 },
-};
-const track: Track = { name: "test", artists: ["test"] };

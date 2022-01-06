@@ -70,7 +70,7 @@ const initialState: LobbyState = {
   member: null,
   members: [],
 };
-const member1 = { uid: "1", username: "1", isHost: true };
-const member2 = { uid: "2", username: "2", isHost: false };
+export const member1 = { uid: "1", username: "1", isHost: true };
+export const member2 = { uid: "2", username: "2", isHost: false };
 const member3 = { uid: "3", username: "3", isHost: false };
 const members = [member1, member2, member3];
