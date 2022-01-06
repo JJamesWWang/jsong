@@ -159,7 +159,7 @@ const initialState: GameState = {
   arePlayersReady: false,
 };
 
-const settings: GameSettings = {
+export const settings: GameSettings = {
   playlistName: "playlist",
   maxRounds: 3,
   playLength: 10,
