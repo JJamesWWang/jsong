@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAppSelector } from "../app/hooks";
 import styles from "./MessageBox.module.css";
 import { serverMember } from "../features/chat/chatSlice";

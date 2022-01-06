@@ -9,6 +9,5 @@ test("renders username input box", () => {
       <App />
     </Provider>
   );
-
   expect(getByText(/username/i)).toBeInTheDocument();
 });

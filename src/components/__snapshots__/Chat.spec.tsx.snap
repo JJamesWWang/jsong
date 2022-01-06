@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chat renders a message box and input box 1`] = `
+<div>
+  <p>
+    Chat:
+  </p>
+  <ul
+    class="ul"
+  >
+    <li />
+  </ul>
+  <form
+    autocomplete="off"
+    class="form"
+    name="chat"
+  >
+    <input
+      class="input"
+      name="chat"
+      size="32"
+      type="text"
+    />
+  </form>
+</div>
+`;
