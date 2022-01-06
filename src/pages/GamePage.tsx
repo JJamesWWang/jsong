@@ -52,11 +52,13 @@ function GamePage() {
     }, 1000);
   }, [dispatch, timeRemaining]);
 
+  console.log(player?.props.src);
+
   return (
     <>
       {isServerReady && (
         <ReactAudioPlayer
-          src={trackEndpoint}
+          src={trackEndpoint()}
           ref={(e) => setPlayer(e)}
           onCanPlay={(e) => setReady()}
           volume={0.05}

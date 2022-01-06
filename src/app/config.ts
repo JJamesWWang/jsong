@@ -17,7 +17,7 @@ export const startGameEndpoint = (uid: string) =>
 export const setReadyEndpoint = (uid: string) =>
   `${baseProtocol}://${baseUrl}/lobby/ready/${uid}`;
 
-export const trackEndpoint = `${baseProtocol}://${baseUrl}/lobby/track?randomizer=${new Date().getTime()}`;
+export const trackEndpoint = () => `${baseProtocol}://${baseUrl}/lobby/track?randomizer=${new Date().getTime()}`;
 
 export const endGameEndpoint = (uid: string) =>
   `${baseProtocol}://${baseUrl}/lobby/end/${uid}`;
