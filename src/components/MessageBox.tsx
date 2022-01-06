@@ -25,13 +25,10 @@ function MessageBox() {
   }, [messages]);
 
   return (
-    <>
-      <p>Chat:</p>
-      <ul className={styles.ul}>
-        {messages}
-        <li ref={messagesEndRef} />
-      </ul>
-    </>
+    <ul className={styles.ul}>
+      {messages}
+      <li ref={messagesEndRef} />
+    </ul>
   );
 }
 

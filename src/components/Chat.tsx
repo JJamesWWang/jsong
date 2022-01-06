@@ -14,6 +14,7 @@ function Chat() {
 
   return (
     <>
+      <p>Chat:</p>
       <MessageBox />
       <InputBox name="chat" autoFocus={true} onSubmit={sendJsonMessage} />
     </>
