@@ -8,6 +8,7 @@ import Button from "../components/ui/Button";
 import styles from "./GamePage.module.css";
 import ReactAudioPlayer from "react-audio-player";
 import { decrementTimeRemaining } from "../features/game/gameSlice";
+import Slider from "../components/ui/Slider";
 
 function GamePage() {
   const member = useAppSelector((state) => state.lobby.member);
@@ -19,12 +20,26 @@ function GamePage() {
       });
     }
   }
+
+  const [volume, setVolume] = useState(0.05);
+  const volumeSlider = (
+    <Slider
+      name="volume"
+      label="Adjust Volume:"
+      onChange={(v: number) => setVolume(v / 100)}
+    />
+  );
   const hostOptions = (
     <div className={styles.hostOptions}>
       {<Button onClick={endGame}>End Game</Button>}
     </div>
   );
-  const playerOptions = member?.isHost ? hostOptions : null;
+  const playerOptions = (
+    <>
+      {volumeSlider}
+      {member?.isHost && hostOptions}
+    </>
+  );
 
   const [player, setPlayer] = useState<ReactAudioPlayer | null>(null);
   async function setReady() {
@@ -52,7 +67,7 @@ function GamePage() {
     }, 1000);
   }, [dispatch, timeRemaining]);
 
-  const round = (useAppSelector((state) => state.game.round) || 1);
+  const round = useAppSelector((state) => state.game.round) || 1;
   return (
     <>
       {isServerReady && (
@@ -60,7 +75,7 @@ function GamePage() {
           src={trackEndpoint(round)}
           ref={(e) => setPlayer(e)}
           onCanPlay={(e) => setReady()}
-          volume={0.05}
+          volume={volume}
         />
       )}
       <div className={styles.topFiller} />
