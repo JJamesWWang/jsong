@@ -3,12 +3,15 @@ import styles from "./Leaderboard.module.css";
 
 function Leaderboard() {
   const players = useAppSelector((state) => state.game.players);
-  const playerRows = players.map((player) => (
-    <tr key={player.uid} className={styles.tr}>
-      <td className={styles.username}>{player.username}</td>
-      <td className={styles.score}>{player.score}</td>
-    </tr>
-  ));
+  const playerRows = players.map((player) => {
+    const trStyle = `${styles.tr} ${player.isCorrect ? styles.correct : ""}`;
+    return (
+      <tr key={player.uid} className={trStyle}>
+        <td className={styles.username}>{player.username}</td>
+        <td className={styles.score}>{player.score}</td>
+      </tr>
+    );
+  });
   return (
     <div className={styles.leaderboard}>
       <p>Leaderboard:</p>
