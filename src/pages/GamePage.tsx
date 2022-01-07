@@ -26,6 +26,7 @@ function GamePage() {
     <Slider
       name="volume"
       label="Adjust Volume:"
+      value={volume * 100}
       onChange={(v: number) => setVolume(v / 100)}
     />
   );
