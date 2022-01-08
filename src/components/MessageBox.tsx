@@ -32,23 +32,24 @@ function MessageBox() {
   );
 
   const roundStartingMessage = (
-    <div className={styles.roundStartingMessage}>
-      {`Round starting in ${timeUntilRoundStarts}...`}
-    </div>
+    <li>{`Round starting in ${timeUntilRoundStarts}...`}</li>
   );
 
   const messagesHTML = (
-    <ul className={styles.ul}>
+    <>
       {messages}
       <li ref={messagesEndRef} />
-    </ul>
+    </>
   );
 
+  const style = `${styles.ul} ${
+    shouldAnnounceRoundStarting ? styles.roundStartingMessage : ""
+  }`;
   return (
-    <>
+    <ul className={style}>
       {shouldAnnounceRoundStarting && roundStartingMessage}
       {!shouldAnnounceRoundStarting && messagesHTML}
-    </>
+    </ul>
   );
 }
 

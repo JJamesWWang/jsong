@@ -1,6 +1,6 @@
 .ul {
   margin: 0;
-  padding: 0 2em 1em;
+  padding: 0;
   height: 60vh;
   border: 1px solid #888;
   background-color: #363636;
@@ -15,18 +15,15 @@
 }
 
 .roundStartingMessage {
-  font-size: 3em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  height: 60vh;
-  border: 1px solid #888;
-  background-color: #363636;
+  font-size: 3em;
 }
 
 .li {
-  padding-top: 1em;
+  padding: 0.5em 1em;
   word-wrap: break-word;
 }
 
