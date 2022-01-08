@@ -22,6 +22,7 @@ export const serverMember: Member = {
 export type ChatMessage = {
   member: Member;
   content: string;
+  isCorrect?: boolean;
 };
 
 export interface ChatState {
@@ -78,7 +79,8 @@ export const chatSlice = createSlice({
       state.messages = pushMessage(
         state,
         serverMember,
-        `${action.payload.username} has guessed correctly!`
+        `${action.payload.username} has guessed correctly!`,
+        true
       );
     });
     builder.addCase(receiveEndRound, (state, action) => {
@@ -96,8 +98,13 @@ export const chatSlice = createSlice({
   },
 });
 
-function pushMessage(state: ChatState, member: Member, content: string) {
-  return [...state.messages, { member, content }];
+function pushMessage(
+  state: ChatState,
+  member: Member,
+  content: string,
+  isCorrect?: boolean
+) {
+  return [...state.messages, { member, content, isCorrect }];
 }
 
 export default chatSlice.reducer;

@@ -81,6 +81,7 @@ describe("chat reducer", () => {
     const actual = chatReducer(started, receiveCorrectGuess(player1));
     expect(actual.messages[2].member).toEqual(serverMember);
     expect(actual.messages[2].content).toContain(player1.username);
+    expect(actual.messages[2].isCorrect).toBeTruthy();
   });
 
   it("should display the track when the round ends", () => {
