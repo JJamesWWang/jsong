@@ -42,8 +42,8 @@ function MessageBox() {
     </>
   );
 
-  const style = `${styles.ul} ${
-    shouldAnnounceRoundStarting ? styles.roundStartingMessage : ""
+  const style = `${styles.ul}${
+    shouldAnnounceRoundStarting ? " " + styles.roundStartingMessage : ""
   }`;
   return (
     <ul className={style}>
