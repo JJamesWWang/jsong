@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/jsong/static/css/main.5e9402d6.css",
+    "main.js": "/jsong/static/js/main.801612a2.js",
+    "index.html": "/jsong/index.html",
+    "main.5e9402d6.css.map": "/jsong/static/css/main.5e9402d6.css.map",
+    "main.801612a2.js.map": "/jsong/static/js/main.801612a2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5e9402d6.css",
+    "static/js/main.801612a2.js"
+  ]
+}
