@@ -1,7 +1,8 @@
-const baseProtocol = "http";
-const baseUrl = "localhost:8000";
+const baseProtocol = "https";
+const baseUrl = "jsong-api.herokuapp.com";
 
 export const websocketEndpoint = (username: string) =>
+  // @ts-ignore
   baseProtocol === "http"
     ? `ws://${baseUrl}/ws/${username}`
     : `wss://${baseUrl}/ws/${username}`;
