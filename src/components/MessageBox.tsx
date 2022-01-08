@@ -24,11 +24,31 @@ function MessageBox() {
     scrollToBottom();
   }, [messages]);
 
-  return (
+  const shouldAnnounceRoundStarting = useAppSelector(
+    (state) => state.game.startRoundDelayRemaining > 0
+  );
+  const timeUntilRoundStarts = useAppSelector(
+    (state) => state.game.startRoundDelayRemaining
+  );
+
+  const roundStartingMessage = (
+    <div className={styles.roundStartingMessage}>
+      {`Round starting in ${timeUntilRoundStarts}...`}
+    </div>
+  );
+
+  const messagesHTML = (
     <ul className={styles.ul}>
       {messages}
       <li ref={messagesEndRef} />
     </ul>
+  );
+
+  return (
+    <>
+      {shouldAnnounceRoundStarting && roundStartingMessage}
+      {!shouldAnnounceRoundStarting && messagesHTML}
+    </>
   );
 }
 
