@@ -78,10 +78,12 @@ function GamePage() {
 
   const timeRemaining = useAppSelector((state) => state.game.timeRemaining);
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(decrementTimeRemaining());
-    }, 1000);
-  }, [dispatch, timeRemaining]);
+    if (startRoundDelayRemaining === 0) {
+      setTimeout(() => {
+        dispatch(decrementTimeRemaining());
+      }, 1000);
+    }
+  }, [dispatch, timeRemaining, startRoundDelayRemaining]);
 
   const round = useAppSelector((state) => state.game.round) || 1;
   return (
