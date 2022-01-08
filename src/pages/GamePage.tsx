@@ -7,7 +7,10 @@ import Leaderboard from "../components/Leaderboard";
 import Button from "../components/ui/Button";
 import styles from "./GamePage.module.css";
 import ReactAudioPlayer from "react-audio-player";
-import { decrementTimeRemaining } from "../features/game/gameSlice";
+import {
+  decrementStartRoundDelayRemaining,
+  decrementTimeRemaining,
+} from "../features/game/gameSlice";
 import Slider from "../components/ui/Slider";
 
 function GamePage() {
@@ -56,13 +59,23 @@ function GamePage() {
 
   const isServerReady = useAppSelector((state) => state.game.isServerReady);
   const arePlayersReady = useAppSelector((state) => state.game.arePlayersReady);
+  const startRoundDelayRemaining = useAppSelector(
+    (state) => state.game.startRoundDelayRemaining
+  );
+
   useEffect(() => {
-    if (arePlayersReady) {
+    if (arePlayersReady && startRoundDelayRemaining === 0) {
       player?.audioEl.current?.play();
     }
-  }, [player, arePlayersReady]);
+  }, [player, arePlayersReady, startRoundDelayRemaining]);
 
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(decrementStartRoundDelayRemaining());
+    }, 1000);
+  }, [dispatch, startRoundDelayRemaining]);
+
   const timeRemaining = useAppSelector((state) => state.game.timeRemaining);
   useEffect(() => {
     setTimeout(() => {
