@@ -14,8 +14,8 @@ function ConnectingPage(props: ConnectingPageProps) {
       {isConnecting && <p>Connecting...</p>}
       {isConnectionFailed && (
         <p>
-          Failed to connect. Please try again later or contact James @
-          jjameswwang@gmail.com
+          Failed to connect or a game is in progress. Please try again later or contact
+          James @ jjameswwang@gmail.com
         </p>
       )}
       {isConnected && <p>Connected!</p>}
