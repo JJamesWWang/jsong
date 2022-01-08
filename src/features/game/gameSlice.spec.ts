@@ -8,6 +8,7 @@ import {
   receiveStartRound,
 } from "../serverActions";
 import gameReducer, {
+  decrementStartRoundDelayRemaining,
   decrementTimeRemaining,
   GameSettings,
   GameState,
@@ -38,7 +39,7 @@ describe("game reducer", () => {
     expect(actual.isServerReady).toEqual(true);
   });
 
-  it("should start set the timer when the round starts", () => {
+  it("should start set timeRemaining when the round starts", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const actual = gameReducer(started, receiveStartRound());
     expect(actual.timeRemaining).toEqual(settings.playLength);
@@ -54,6 +55,30 @@ describe("game reducer", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const actual = gameReducer(started, receiveStartRound());
     expect(actual.arePlayersReady).toEqual(true);
+  });
+
+  it("should set startRoundDelayRemaining when the round starts", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const actual = gameReducer(started, receiveStartRound());
+    expect(actual.startRoundDelayRemaining).toEqual(settings.startRoundDelay);
+  });
+
+  it("should decrement startRoundDelayRemaining", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const actual = gameReducer(roundStarted, decrementStartRoundDelayRemaining());
+    expect(actual.startRoundDelayRemaining).toEqual(settings.startRoundDelay - 1);
+  });
+
+  it("shouldn't decrement startRoundDelayRemaining past 0", () => {
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    let state = roundStarted;
+    for (let i = 0; i < settings.startRoundDelay; i++) {
+      state = gameReducer(state, decrementStartRoundDelayRemaining());
+    }
+    const actual = gameReducer(state, decrementStartRoundDelayRemaining());
+    expect(actual.startRoundDelayRemaining).toEqual(0);
   });
 
   it("should decrement timeRemaining", () => {
@@ -85,7 +110,7 @@ describe("game reducer", () => {
     expect(actual.players[1].isCorrect).toEqual(false);
   });
 
-  it("shouldn't decrement past 0", () => {
+  it("shouldn't decrement timeRemaining past 0", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const roundStarted = gameReducer(started, receiveStartRound());
     let state = roundStarted;
@@ -153,6 +178,7 @@ const initialState: GameState = {
   players: [],
   previousTrack: null,
   round: 0,
+  startRoundDelayRemaining: 0,
   timeRemaining: 0,
   settings: null,
   isServerReady: false,
@@ -163,6 +189,7 @@ export const settings: GameSettings = {
   playlistName: "playlist",
   maxRounds: 3,
   playLength: 10,
+  startRoundDelay: 3,
 };
 export const player1: Player = { uid: "1", username: "1", score: 0, isCorrect: false };
 export const player2: Player = { uid: "2", username: "2", score: 0, isCorrect: false };

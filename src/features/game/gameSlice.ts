@@ -20,6 +20,7 @@ export type GameSettings = {
   playlistName: string;
   maxRounds: number;
   playLength: number;
+  startRoundDelay: number;
 };
 
 export type Track = {
@@ -32,6 +33,7 @@ export interface GameState {
   players: Player[];
   previousTrack: Track | null;
   round: number;
+  startRoundDelayRemaining: number;
   timeRemaining: number;
   settings: GameSettings | null;
   isServerReady: boolean;
@@ -43,6 +45,7 @@ const initialState: GameState = {
   players: [],
   previousTrack: null,
   round: 0,
+  startRoundDelayRemaining: 0,
   timeRemaining: 0,
   settings: null,
   isServerReady: false,
@@ -53,6 +56,9 @@ export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
+    decrementStartRoundDelayRemaining: (state) => {
+      state.startRoundDelayRemaining = Math.max(0, state.startRoundDelayRemaining - 1);
+    },
     decrementTimeRemaining: (state) => {
       state.timeRemaining = Math.max(0, state.timeRemaining - 1);
     },
@@ -72,6 +78,7 @@ export const gameSlice = createSlice({
       }
       state.round += 1;
       state.timeRemaining = state.settings!.playLength;
+      state.startRoundDelayRemaining = state.settings!.startRoundDelay;
       state.arePlayersReady = true;
     });
     builder.addCase(receiveCorrectGuess, (state, action) => {
@@ -114,6 +121,7 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { decrementTimeRemaining } = gameSlice.actions;
+export const { decrementStartRoundDelayRemaining, decrementTimeRemaining } =
+  gameSlice.actions;
 
 export default gameSlice.reducer;
