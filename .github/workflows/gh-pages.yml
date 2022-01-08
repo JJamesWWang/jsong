@@ -1,3 +1,10 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  gh-pages-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
