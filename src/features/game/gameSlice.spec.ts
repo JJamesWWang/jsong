@@ -138,7 +138,10 @@ describe("game reducer", () => {
   it("should set all players back to not correct when the round ends", () => {
     const started = gameReducer(initialState, receiveStartGame(startGamePayload));
     const roundStarted = gameReducer(started, receiveStartRound());
-    const guessedCorrectly = gameReducer(roundStarted, receiveCorrectGuess(player1));
+    const guessedCorrectly = gameReducer(
+      roundStarted,
+      receiveCorrectGuess({ ...player1, isCorrect: true })
+    );
     const actual = gameReducer(guessedCorrectly, receiveEndRound(track1));
     expect(actual.players[0].isCorrect).toEqual(false);
     expect(actual.players[1].isCorrect).toEqual(false);
@@ -156,6 +159,29 @@ describe("game reducer", () => {
     const roundStarted = gameReducer(started, receiveStartRound());
     const actual = gameReducer(roundStarted, receiveEndRound(track1));
     expect(actual.arePlayersReady).toEqual(false);
+  });
+
+  it("should stable sort players by score", () => {
+    expect(player1.score).toEqual(player2.score);
+    const started = gameReducer(initialState, receiveStartGame(startGamePayload));
+    const roundStarted = gameReducer(started, receiveStartRound());
+    const p2GuessedCorrectly = gameReducer(
+      roundStarted,
+      receiveCorrectGuess({ ...player2, score: player2.score + 1 })
+    );
+    expect(p2GuessedCorrectly.players[0].uid).toEqual(player2.uid);
+    const p1GuessedCorrectly1 = gameReducer(
+      p2GuessedCorrectly,
+      receiveCorrectGuess({ ...player1, score: player1.score + 1 })
+    );
+    expect(p1GuessedCorrectly1.players[0].uid).toEqual(player2.uid);
+    const roundEnded = gameReducer(p1GuessedCorrectly1, receiveEndRound(track1));
+    const round2Started = gameReducer(roundEnded, receiveStartRound());
+    const p1GuessedCorrectly2 = gameReducer(
+      round2Started,
+      receiveCorrectGuess({ ...player1, score: player1.score + 2 })
+    );
+    expect(p1GuessedCorrectly2.players[0].uid).toEqual(player1.uid);
   });
 
   it("should remove disconnected players", () => {

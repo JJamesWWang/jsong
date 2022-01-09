@@ -85,10 +85,11 @@ export const gameSlice = createSlice({
       if (!state.isActive) {
         return;
       }
-      const player = state.players.find((p) => p.uid === action.payload.uid);
-      if (player) {
-        player.score = action.payload.score;
-        player.isCorrect = true;
+      const index = state.players.findIndex((p) => p.uid === action.payload.uid);
+      if (index !== -1) {
+        state.players[index].score = action.payload.score;
+        state.players[index].isCorrect = true;
+        state.players.sort((p1, p2) => p2.score - p1.score);
       }
     });
     builder.addCase(receiveEndRound, (state, action) => {
