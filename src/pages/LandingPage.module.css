@@ -1,10 +1,12 @@
 .landingPage {
-  display: table;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 25vw;
+  margin-right: 25vw;
   height: 100vh;
-  margin: auto;
 }
 
 .inputBox {
-  display: table-cell;
-  vertical-align: middle;
+  margin-top: 2em;
 }
